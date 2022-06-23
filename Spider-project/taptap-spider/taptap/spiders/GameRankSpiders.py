@@ -1,60 +1,59 @@
 import json
+import logging
 import scrapy
 from scrapy import FormRequest
 from ..items import TaptapItem
-from ProjSettings import domain, X_UA
+from ProjSettings import *
 
 
-class GameRankSpiderBase(scrapy.Spider):
-    name = 'GameRankSpiderBase_UNDEFINED'
+def _rank_spiders_factory(_name: str = 'GameRankSpiderBase_UNDEFINED', classification: str = None) -> scrapy.Spider:
+    """
+    Factory function to create multiple spiders for each rank type
+    """
+    class _GameRankSpiderBase(scrapy.Spider):
+        name = _name
 
-    def __init__(self, classification: str = 'NONE', **kwargs):
-        super().__init__(**kwargs)
-        assert (classification != 'NONE' and self.name != 'GameRankSpiderBase_UNDEFINED')
-        self.func_path = f'/webapiv2/app-top/v2/hits?platform=android&type_name={classification}'
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            self.name = f'GameRankSpider_{classification}'
+            self.func_path = domain+rank_for_types.format(X_UA, classification)
 
-    def start_requests(self):
-        return [FormRequest(
-            F'{domain}{self.func_path}&X-UA={X_UA}',
-            callback=self.parse,
-            dont_filter=True,
-            cookies=None
-        )]
+            if (classification == None or self.name == 'GameRankSpiderBase_UNDEFINED'):
+                raise NameError("Spider Name Is Not Properly Initialized")
 
-    def parse(self, response, **kwargs):
-        item = TaptapItem()
-        db = json.loads(response.text)
-        for i in db['data']['list']:
-            item['name'] = i['app']['title']
-            item['stat'] = i['app']['stat']['rating']['score']
-            yield item
-        if db['data']['next_page'] != '':
-            yield FormRequest(f"{domain}{db['data']['next_page']}&X-UA={X_UA}")
+        def start_requests(self):
+            return [FormRequest(
+                url=self.func_path,
+                callback=self.parse,
+                headers=headers
+            )]
 
+        def parse(self, response, **kwargs):
+            try:
+                item = TaptapItem()
+                db = json.loads(response.text)
+                for i in db['data']['list']:
+                    item['name'] = i['app']['title']
+                    item['id'] = i['app']['id']
+                    item['stat'] = i['app']['stat']['rating']['score']
+                    yield item
+                if db['data']['next_page'] != '':
+                    yield FormRequest(
+                        url=f"{db['data']['next_page']}&X-UA={X_UA}",
+                        callback=self.parse,
+                        headers=headers
+                    )
+            except Exception as e:
+                logging.ERROR(
+                    f'Get details info failed due to following error: \n{e}')
 
-class TopHeatSpider(GameRankSpiderBase):
-    name = 'top-heat'
-
-    def __init__(self):
-        super(TopHeatSpider, self).__init__('hot')
-
-
-class TopReservedSpider(GameRankSpiderBase):
-    name = 'top-reserved'
-
-    def __init__(self):
-        super(TopReservedSpider, self).__init__('reserve')
-
-
-class TopPlayedSpider(GameRankSpiderBase):
-    name = 'top-played'
-
-    def __init__(self):
-        super(TopPlayedSpider, self).__init__('pop')
+    _GameRankSpiderBase.__name__ = classification
+    _GameRankSpiderBase.__qualname__ = classification
+    return _GameRankSpiderBase
 
 
-class TopSoldSpider(GameRankSpiderBase):
-    name = 'top-sold'
-
-    def __init__(self):
-        super(TopSoldSpider, self).__init__('sell')
+tags = ['hot', 'reserve', 'pop', 'sell']
+for i in tags:
+    globals()[f'GameRankSpider_{i}'] = _rank_spiders_factory(
+        f'GameRankSpider_{i}', i)
+    logging.info(f'GameRankSpider_{i} class is created')
