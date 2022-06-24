@@ -45,13 +45,15 @@ tag_icons = [
     'Roguelike',
     '武侠',
     'Steam移植',
-    #     'UP主推荐'【不支持，因为是广告】
+    'UP主推荐'
 ]
 category_details = '/library/v1/list-with-device?sort=hits&tag_icon={}&X-UA={}'
 
 # need app_id and X_UA, app_id can be found from category json file returned by GameCategorySpider
 app_details = '/app/v2/detail-by-id/{}?X-UA={}'
 
+# need app_id and X_UA
+app_reviews = '/review/v2/by-app?app_id={}&X-UA={}&sort=new'
 
 # Header infomation required to get game infomations from taptap application
 headers = {

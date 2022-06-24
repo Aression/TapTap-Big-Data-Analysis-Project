@@ -20,19 +20,24 @@ def crawl():
     """
     从爬虫模块内加载所有爬虫，并启动爬虫
     """
-    module_names = ['taptap.spiders.GameRankSpiders',
-                    'taptap.spiders.GameCategorySpiders']
-    start_strs = ['CategoryDetailsSpider', 'GameRankSpider']
+    module_names = [
+        'taptap.spiders.GameRankSpiders',
+        'taptap.spiders.GameCategorySpiders'
+    ]
+    start_strs = [
+        'CategoryDetailsSpider',
+        'GameRankSpider'
+    ]
     for name in module_names:
         for spider_name, spider_class in (inspect.getmembers(sys.modules[name], inspect.isclass)):
             for start_str in start_strs:
+                # 过滤掉不需要的类
                 if spider_name.startswith(start_str):
-                    # 过滤掉不需要的类
                     yield runner.crawl(spider_class)
-    # yield runner.crawl(eval('GameRankSpider_' + 'pop'))
-    # yield runner.crawl(eval('CategoryDetailsSpider_' + 'ce_lve'))
+    yield runner.crawl(eval('GameRankSpider_' + 'pop'))
     reactor.stop()
 
+# help
 
 crawl()
 reactor.run()  # the script will block here until the last crawl call is finished

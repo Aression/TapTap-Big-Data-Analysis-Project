@@ -13,7 +13,7 @@ class JsonWriterPipeline:
         self.file = None
 
     def open_spider(self, spider):
-        self.file = open(f'taptap/saves/{spider.name}.jl', 'a')
+        self.file = open(f'taptap/saves/{spider.name}.jl', 'a', encoding='utf-8')
 
     def close_spider(self, spider):
         self.file.close()

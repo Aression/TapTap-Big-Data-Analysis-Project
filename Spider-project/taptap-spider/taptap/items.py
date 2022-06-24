@@ -6,23 +6,38 @@
 import scrapy
 
 
-class TaptapItem(scrapy.Item):
-    # define the fields for your item here like:
+class RankItem(scrapy.Item):
     name = scrapy.Field()
     id = scrapy.Field()
     stat = scrapy.Field()
 
 
-class GameCategoryItem(scrapy.Item):
-    name = scrapy.Field()
+# class CategoryItem(scrapy.Item):
+#     name = scrapy.Field()
+#     id = scrapy.Field()
+#     img_url = scrapy.Field()
 
+#     price = scrapy.Field()
+#     stat = scrapy.Field()
+#     tags = scrapy.Field()
 
 class GameDetailItem(scrapy.Item):
-    name = scrapy.Field()
-    id = scrapy.Field()
-    img_url = scrapy.Field()
+    """
+    Game Detail Item, used to store game detail info
+    - related api: app_details
+    """
+    id = scrapy.Field()  # db['data']['id']
+    name = scrapy.Field()  # db['data']['title']
+    tags = scrapy.Field()  # initlized from the spider
 
-    price = scrapy.Field
-    stat = scrapy.Field()
-    tags = scrapy.Field()
-    downloads = scrapy.Field()
+    # note that this is a list of following structure:
+    # {'type': 'db['data']['developers']['type']', 'name': db['data']['developers']['name']}
+    companies = scrapy.Field()
+
+    original_price = scrapy.Field()  # db['data']['price']['taptap_original']
+    current_price = scrapy.Field()  # db['data']['price']['taptap_current']
+
+    downloads = scrapy.Field()  # db['data']['stat']['hits_total']
+    vote_info = scrapy.Field()  # db['data']['stat']['vote_info']
+
+    comment = scrapy.Field()  # db['data']['list'][i]['moment']['extended_entities']['reviews'][0]['contents']['text']

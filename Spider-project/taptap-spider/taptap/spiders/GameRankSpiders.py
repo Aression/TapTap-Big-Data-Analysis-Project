@@ -2,7 +2,7 @@ import json
 import logging
 import scrapy
 from scrapy import FormRequest
-from ..items import TaptapItem
+from ..items import RankItem
 from ProjSettings import *
 
 
@@ -30,7 +30,7 @@ def _rank_spiders_factory(_name: str = 'GameRankSpiderBase_UNDEFINED', classific
 
         def parse(self, response, **kwargs):
             try:
-                item = TaptapItem()
+                item = RankItem()
                 db = json.loads(response.text)
                 for i in db['data']['list']:
                     item['name'] = i['app']['title']
