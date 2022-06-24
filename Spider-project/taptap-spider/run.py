@@ -1,6 +1,6 @@
 # coding:utf-8
 import inspect
-import sys
+import sys, logging
 
 from taptap.spiders.GameRankSpiders import *
 from taptap.spiders.GameCategorySpiders import *
@@ -33,11 +33,12 @@ def crawl():
             for start_str in start_strs:
                 # 过滤掉不需要的类
                 if spider_name.startswith(start_str):
+                    logging.info("start spider: %s" % spider_name)
                     yield runner.crawl(spider_class)
     yield runner.crawl(eval('GameRankSpider_' + 'pop'))
     reactor.stop()
 
 # help
-
-crawl()
-reactor.run()  # the script will block here until the last crawl call is finished
+def go():
+    crawl()
+    reactor.run()  # the script will block here until the last crawl call is finished

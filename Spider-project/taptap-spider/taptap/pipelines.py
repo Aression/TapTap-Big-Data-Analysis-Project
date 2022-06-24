@@ -3,7 +3,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
-import json
+import json,os
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
@@ -13,6 +13,9 @@ class JsonWriterPipeline:
         self.file = None
 
     def open_spider(self, spider):
+        file_path = f'taptap/saves/{spider.name}.jl'
+        if os.path.exists(file_path):
+            os.remove(file_path)
         self.file = open(f'taptap/saves/{spider.name}.jl', 'a', encoding='utf-8')
 
     def close_spider(self, spider):
