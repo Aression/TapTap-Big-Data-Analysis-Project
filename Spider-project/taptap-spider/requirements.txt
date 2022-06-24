@@ -1,3 +1,4 @@
 scrapy
 pypinyin
 jsonlines
+apscheduler
