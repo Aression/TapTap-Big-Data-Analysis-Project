@@ -1,54 +1,58 @@
 #Development!
 #ART0189
 
-def GenericBase():
-    return
+from AppStartDataBase import HiveDB,HiveConnection
 
-def GenericCreate(TableName,TableStoreDir):
-    #GenericCreate(NewTable,/root)
-    '''
+def GenericInsert(TableName,Object):
     try:
         TargetCommand=''
         TableNameStr=str(TableName)
-        TableDirStr=str(TableStoreDir)
+        ObjectStr=Object.Serialize()
 
-        TargetCommand=\
-            'create database if not exists {}'.format(TableNameStr)\
-            +' location \'{}\''.format(TableDirStr)+';'
+        TargetCommand='insert into {} values{}'.format(TableNameStr,ObjectStr)
 
-        exec(TargetCommand)
+        HiveDB.execute(TargetCommand)
+        HiveConnection.commit()
 
         return True
     except BaseException:
-        print('Invalid DataBaseModel/ParameterName/Value')
+        print('Invalid TableName/Object')
 
         return False
-    '''
 
-    print('Reject dynamic table operations!')
-    return False
-
-
-def GenericRemove(TableName):
+def GenericUpdate(TableName,UpdateMethod,Condition):
     try:
         TargetCommand=''
         TableNameStr=str(TableName)
-        TableDirStr=str(TableStoreDir)
+        UpdateMethodStr=str(UpdateMethod)
+        ConditionStr=str(Condition)
 
-        TargetCommand=\
-            'create database if not exists {}'.format(TableNameStr)\
-            +' location \'{}\''.format(TableDirStr)+';'
+        TargetCommand='update {} set {} where {}'.format(TableNameStr,UpdateMethodStr,ConditionStr)
 
-        exec(TargetCommand)
+        HiveDB.execute(TargetCommand)
+        HiveConnection.commit()
 
         return True
     except BaseException:
-        print('Invalid DataBaseModel/ParameterName/Value')
+        print('Invalid TableName/UpdateMethod/Condition')
 
         return False
 
-def GenericUpdate():
-    return
+def GenericDelete(TableName,Condition):
+    #Use table name and condition to delete data.
+    try:
+        TargetCommand=''
+        TableNameStr=str(TableName)
+        ConditionStr=str(Condition)
 
-def GenericDelete():
-    return
+        TargetCommand='delete from {} where {}'.format(TableNameStr,ConditionStr)
+
+        HiveDB.execute(TargetCommand)
+        HiveConnection.commit()
+
+        return True
+    except BaseException:
+        print('Invalid TableName/Condition')
+
+        return False
+
