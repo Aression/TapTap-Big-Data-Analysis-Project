@@ -1,5 +1,4 @@
 import json
-import logging
 import scrapy
 from scrapy import FormRequest
 from ..items import RankItem
@@ -44,7 +43,7 @@ def _rank_spiders_factory(_name: str = 'GameRankSpiderBase_UNDEFINED', classific
                         headers=headers
                     )
             except Exception as e:
-                logging.ERROR(
+                self.logger.error(
                     f'Get details info failed due to following error: \n{e}')
 
     _GameRankSpiderBase.__name__ = classification
@@ -56,4 +55,3 @@ tags = ['hot', 'reserve', 'pop', 'sell']
 for i in tags:
     globals()[f'GameRankSpider_{i}'] = _rank_spiders_factory(
         f'GameRankSpider_{i}', i)
-    logging.info(f'GameRankSpider_{i} class is created')

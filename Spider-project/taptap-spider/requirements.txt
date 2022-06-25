@@ -2,3 +2,6 @@ scrapy
 pypinyin
 jsonlines
 apscheduler
+jieba
+pandas
+beautifulsoup4

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import logging
 import json
 import pypinyin
 import scrapy
@@ -53,7 +52,7 @@ def _category_details_spider_factory(_name: str = 'CategoryDetailsSpider_name_UN
                         headers=headers
                     )
             except Exception as e:
-                logging.error(
+                self.logger.error(
                     f'Get details info failed due to following error: \n{e}')
 
         def parse_game_details(self, response, **kwargs):
@@ -70,10 +69,14 @@ def _category_details_spider_factory(_name: str = 'CategoryDetailsSpider_name_UN
                 item['current_price'] = db['data']['price']['taptap_current']
                 item['original_price'] = db['data']['price']['taptap_original']
                 item['downloads'] = db['data']['stat']['play_total']
-                item['vote_info'] = db['data']['stat']['vote_info']
 
+                if db['data']['stat']['vote_info'] is not None:
+                    item['vote_info'] = db['data']['stat']['vote_info'] 
+                else:
+                    item['vote_info'] = {"1": -1, "2": -1, "3": -1, "4": -1, "5": -1}
+
+                # start to get latest reviews
                 item['comment'] = []
-                # crawl comments
                 yield FormRequest(
                     url=domain + app_reviews.format(
                         item['id'], X_UA
@@ -83,7 +86,7 @@ def _category_details_spider_factory(_name: str = 'CategoryDetailsSpider_name_UN
                     headers=headers
                 )
             except Exception as e:
-                logging.error(
+                self.logger.error(
                     f'parse_game_details failed due to following error: \n{e}')
 
         def parse_latest_reviews(self, response, **kwargs):
@@ -94,7 +97,6 @@ def _category_details_spider_factory(_name: str = 'CategoryDetailsSpider_name_UN
                 item['comment'].extend([
                     i['moment']['extended_entities']['reviews'][0]['contents']['text'] for i in db['data']['list']
                 ])
-                yield item
                 if db['data']['next_page'] != '' and size < 100:
                     yield FormRequest(
                         url=f"{db['data']['next_page']}&X-UA={X_UA}",
@@ -102,8 +104,10 @@ def _category_details_spider_factory(_name: str = 'CategoryDetailsSpider_name_UN
                         callback=self.parse_latest_reviews,
                         headers=headers
                     )
+                else:
+                    yield item
             except Exception as e:
-                logging.error(
+                self.logger.error(
                     f'parse_latest_reviews failed due to following error: \n{e}')
 
     _CategoryDetailsSpiderBase.__name__ = _name
@@ -111,11 +115,9 @@ def _category_details_spider_factory(_name: str = 'CategoryDetailsSpider_name_UN
     return _CategoryDetailsSpiderBase
 
 
-logging.info('tag-icons are listed below:{}'.format(tag_icons))
 for tag in tag_icons:
     spider_name = '_'.join(
         [i[0] for i in pypinyin.pinyin(tag, style=pypinyin.NORMAL)])
     globals()[
         f'CategoryDetailsSpider_{spider_name}'
     ] = _category_details_spider_factory(f'CategoryDetailsSpider_{spider_name}', tag)
-    logging.info(f'CategoryDetailsSpider_{spider_name} class created')
