@@ -60,9 +60,12 @@ def _category_details_spider_factory(_name: str = 'CategoryDetailsSpider_name_UN
                 db = json.loads(response.text)
                 item = response.meta['item']
                 item['name'] = db['data']['title']
-                item['tags'] = [
-                    j['value'] for j in db['data']['tags']
-                ]
+                if db['data']['stat']['vote_info'] is not None:
+                    item['tags'] = [
+                        j['value'] for j in db['data']['tags']
+                    ]
+                else:
+                    item['tags'] = []
                 item['companies'] = [
                     {'type': i['type'], 'name': i['name']} for i in db['data']['developers']
                 ]

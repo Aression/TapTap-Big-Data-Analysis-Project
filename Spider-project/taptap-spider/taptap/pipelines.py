@@ -32,31 +32,21 @@ def handel_comment(text):
 
 class JsonWriterPipeline:
     def __init__(self):
-        self.df = None
         self.file_path = None
         self.is_detail = False
+        self.item_list = []
 
     def open_spider(self, spider):
         self.file_path = f'output/{spider.name}.csv'
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
-        if spider.name.startswith('CategoryDetailsSpider'):
-            self.is_detail=True
-        self.df = pd.DataFrame(
-            columns=[
-                'id', 'name', 'tags', 'companies',
-                'current_price', 'original_price', 'downloads', 'vote_info',
-                'comment'
-            ] if self.is_detail else [
-                'id', 'name', 'stat'
-            ]
-        )
+        if spider.name.startswith('CategoryDetailsSpider') or spider.name.startswith('TestSpider'):
+            self.is_detail = True
 
     def close_spider(self, spider):
-        logging.info(f'get dataframe：{self.df}')
         if self.is_detail:
             # 展开评论列表
-            target_df = explode2(self.df, 'comment')
+            target_df = explode2(pd.DataFrame(self.item_list), 'comment')
 
             # 处理评论内容
             regexs = [
@@ -82,12 +72,16 @@ class JsonWriterPipeline:
             # 处理评论内容中的html标签
             target_df['comment'] = target_df['comment'].apply(lambda x: handel_comment(x))
 
+            # 将空价格转为0
+            target_df['current_price'] = target_df['current_price'].apply(lambda x: 0 if x == '' else x)
+            target_df['original_price'] = target_df['original_price'].apply(lambda x: 0 if x == '' else x)
+
             # 将评论内容保存到文件
             target_df.to_csv(self.file_path, index=False)
         else:
             # 将内容保存到文件
-            self.df.to_csv(self.file_path, index=False)
+            pd.DataFrame(self.item_list).to_csv(self.file_path, index=False)
 
     def process_item(self, item, spider):
-        self.df = pd.concat([self.df, pd.DataFrame(dict(item), index=[0])], axis=0, ignore_index=True)
+        self.item_list.append(dict(item))
         return item

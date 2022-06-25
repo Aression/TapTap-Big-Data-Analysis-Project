@@ -6,6 +6,7 @@ import datetime
 
 from taptap.spiders.GameRankSpiders import *
 from taptap.spiders.GameCategorySpiders import *
+from taptap.spiders.TestSpider import *
 
 from twisted.internet import reactor, defer
 from scrapy.crawler import CrawlerRunner
@@ -58,6 +59,7 @@ def crawl():
                 if spider_name.startswith(start_str) and spider_name not in filters:
                     logging.info("start spider: %s" % spider_name)
                     yield runner.crawl(spider_class)
+    # yield runner.crawl(TestSpider)
     reactor.stop()
 
 

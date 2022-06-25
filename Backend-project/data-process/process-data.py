@@ -1,7 +1,7 @@
 import jsonlines
 import pandas as pd
 import numpy as np
-import re,os,json,jieba
+import re,os,json,jieba, math
 from bs4 import BeautifulSoup
 
 '''
@@ -20,11 +20,14 @@ def explode2(df, col):
     ) 
 
 stopwords = {}.fromkeys([line.rstrip() for line in open('./stop-words.txt', encoding='utf-8')]) #加载停用词(中文)
+save_ratio = (np.sqrt(5)-1)/2
 def handel_comment(text):
     text = BeautifulSoup(text, 'html.parser').get_text() #去掉html标签
-    text =jieba.lcut(text)
+    text = jieba.lcut(text)
     eng_stopwords = set(stopwords) #去掉重复的词
     words = [w for w in text if w not in eng_stopwords] #去除文本中的停用词
+    if len(set(words)) < 5: # 如果不同的词数小于5，则返回空字符串
+        return ''
     return ' '.join(words)
 
 if __name__ == '__main__':
@@ -52,14 +55,16 @@ if __name__ == '__main__':
         for rgx in regexs:
             target_df['comment'] = target_df['comment'].str.replace(rgx,'')
 
+        # 处理评论内容中的html标签
+        target_df['comment'] = target_df['comment'].apply(lambda x: handel_comment(x))
+
+
         # 将空字符串转为NAN,用于下一步删除这些评论
         target_df['comment'].replace(to_replace=r'^\s*$', value=np.nan, regex=True, inplace=True)
         # 删除comment中的空值,并重置索引
         target_df = target_df.dropna(subset=['comment'])
         target_df.reset_index(drop=True, inplace=True)
 
-        # 处理评论内容中的html标签
-        target_df['comment'] = target_df['comment'].apply(lambda x: handel_comment(x))
 
         # 将评论内容保存到文件
         target_df.to_csv('./output/'+doc_name+'.csv', index=False)
