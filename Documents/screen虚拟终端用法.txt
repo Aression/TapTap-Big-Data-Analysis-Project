@@ -1,0 +1,13 @@
+安装：
+
+    apt install screen
+
+常用参数：
+
+    -S:创建一个终端，例：screen -S ping-->创建一个名字为ping的终端
+
+    ctrl+a+d:进入虚拟终端后，不中断退出，让虚拟终端的任务持续在后台执行
+
+   -ls:列出所有的虚拟终端
+
+   -r:进入指定的虚拟终端（可以通过screen -ls看到终端的pid和名字），例：screen -r ping 
