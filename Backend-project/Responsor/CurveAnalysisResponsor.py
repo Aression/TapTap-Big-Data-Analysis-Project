@@ -1,16 +1,26 @@
-from AppStartDataBase import App
-from ResponseFunctionLibrary import *
-from flask import Blueprint,make_response
+from ResponsorHeader import *
 
-route_curve = Blueprint('curve', __name__)
+#Unfinished------------------------------------------------------------------
+@App.route('/', methods=["GET"])
+def SerchGame():
+    req=request.values
+    ReqGameName=req['search_game-name']
 
-@route_curve.route('/', methods=["GET","POST"])
-def CurveList():
-    
-    return
+    ThisGame=Game.query.filter_by(GameName=ReqGameName).first()
 
+    resp = {'code': 200, 'game_name': ReqGameName, 'stat': ThisGame.stat, 'category_name':ThisGame.CategoryName}
 
-@route_curve.route('/details', methods=["GET","POST"])
+    return jsonify(resp)
+
+#Unfinished------------------------------------------------------------------
+@App.route('/curve', methods=["GET"])
 def Curve():
+    req=request.values
+    ReqGameName=req['search_game-name']
+
+    ThisGame=Game.query.filter_by(GameName=ReqGameName).first()
+    Historys=History.query.filter_by(GameID=ThisGame.GameID).all()
+
     
+
     return 

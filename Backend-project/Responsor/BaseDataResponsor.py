@@ -1,25 +1,37 @@
-from AppStartDataBase import App
-from ResponseFunctionLibrary import *
-from flask import Blueprint,make_response
+from requests import request
+from .ResponsorHeader import *
 
-route_rank = Blueprint('rank', __name__)
+route_basicdata = Blueprint('basicdata', __name__)
 
-@route_rank.route('/heat', methods=["GET"])
-def HeatRank():
-
-    return 
-
-@route_rank.route('/played', methods=["GET"])
-def PlayedRank():
+#Unfinished------------------------------------------------------------------
+@route_basicdata.route('/getHotTableChart', methods=["GET"])
+def HotTableChart():
     
+    Cates=Category.query.all()
+    #Find hot of category from data analysis.
+
     return 
 
-@route_rank.route('/reserved', methods=["GET"])
-def ReservedRank():
-    
-    return 
+#Unfinished------------------------------------------------------------------
+@route_basicdata.route('/getHotTable', methods=["GET"])
+def HotTable():
+    req=request.values
 
-@route_rank.route('/sold', methods=["GET"])
-def SoldRank():
-    
-    return 
+    hots=[]
+    hotstr=[]
+    Games = History.query.order_by(History.UpdateTime.asc()).all()
+    LastUpdate=Games.first().UpdateTime
+    for i in Games:
+        if i.UpdateTime!=LastUpdate:
+            break
+
+        hots.append(i)
+
+    hots.sort(key=HeatRank,reverse=True)
+
+    for i in hots:
+        gameobject=Game.query.get(i.GameID)
+        hotstr.append('game_name:{},stat:{},category_name:{}'.format(gameobject.GameName,gameobject.CategoryName,i.HeatRank))
+
+    resp = {'code': 200, 'status': 'success', 'tableData': hots}
+    return jsonify(resp)

@@ -4,16 +4,17 @@
 import DB.DBHelper.DBFunctionLibrary as DBFL
 import Models.Models as DBObject
 import pandas as pd
+import os
 
 def ConstructAll():
     ConstructCategory()
 
-    data=pd.read_csv("CategoryDetailsSpider_MMORPG.csv")
-    LastGameID=0
-    for RowData in data.iterrows():
-        if LastGameID!=RowData['id']:
-            ConstructBelongs(RowData)
-            ConstructHistory(RowData)
+    for filepath, dirnames, filenames in os.walk('Data//BaseInfo'):
+        for filename in filenames:
+            data=pd.read_csv("{}\\{}".format(filepath,filename))
+            for RowData in data.iterrows():
+                ConstructBelongs(RowData)
+                ConstructHistory(RowData)
     print("Base data construction finished!")
 
     ConstructGameByAutoErgodic()
@@ -76,7 +77,7 @@ def ConstructGameByAutoErgodic():
     return
 
 def ConstructHistory(RowData):
-    return
+    DBFL.GenericInsert("History",DBObject.History(RowData['']))
 
 def DropAll():
     DBFL.GenericDrop("Belongs")
