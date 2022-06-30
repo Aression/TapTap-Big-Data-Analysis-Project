@@ -1,7 +1,7 @@
 from ResponsorHeader import *
 
 #Unfinished------------------------------------------------------------------
-@App.route('/', methods=["GET"])
+@App.route('/search-page', methods=["GET"])
 def SerchGame():
     req=request.values
     ReqGameName=req['search_game-name']
@@ -13,7 +13,7 @@ def SerchGame():
     return jsonify(resp)
 
 #Unfinished------------------------------------------------------------------
-@App.route('/curve', methods=["GET"])
+@App.route('/data', methods=["GET"])
 def Curve():
     req=request.values
     ReqGameName=req['search_game-name']

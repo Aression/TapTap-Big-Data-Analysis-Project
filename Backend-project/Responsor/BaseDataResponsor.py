@@ -1,4 +1,3 @@
-from requests import request
 from .ResponsorHeader import *
 
 route_basicdata = Blueprint('basicdata', __name__)

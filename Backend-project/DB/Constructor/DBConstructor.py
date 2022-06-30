@@ -10,17 +10,20 @@ import os
 def ConstructAll():
     ConstructCategory()
 
+    LastGame=0
     for filepath, filenames in os.walk('Data\\BaseInfo'):
         for filename in filenames:
             data=pd.read_csv("{}\\{}".format(filepath,filename))
             for RowData in data.iterrows():
-                ConstructBelongs(RowData)
-                ConstructGameAndHistory(RowData)
-    print("Base data construction has finished!")
+                if LastGame != RowData['id']:
+                    LastGame=RowData['id']
+                    ConstructBelongs(RowData)
+                
+    print("Belong data construction has finished!")
+    ConstructGameAndHistoryByAutoErgodic()
+    print("Game&History construction has finished!")
     ConstructCompanyByAutoErgodic()
     print("Company data construction has finished!")
-    ConstructRank()
-    print("Rank data construction has finished!")
 
 def ConstructBelongs(RowData):
     for i in RowData['companies']:
@@ -63,10 +66,13 @@ def ConstructCompanyByAutoErgodic():
     CompanyDict={}
 
     def CompanyConstructHelper(FilePath):
+        LastGame=0
         data=pd.read_csv(FilePath)
         for RowData in data.iterrows():
             for i in RowData['companies']:
-                CompanyDict[i['name']]=CompanyDict[i['name']]+'/'+RowData['id']
+                if LastGame != RowData['id']:
+                    LastGame=RowData['id']
+                    CompanyDict[i['name']]=CompanyDict[i['name']]+'/'+RowData['id']
     
     for filepath, filename in os.walk('Data\\BaseInfo'):
         CompanyConstructHelper("{}\\{}".format(filepath,filename))
@@ -74,34 +80,73 @@ def ConstructCompanyByAutoErgodic():
     for i in CompanyDict.items():
         DBFL.GenericInsert("Company",DBObject.Company(i[0],i[1]))
 
-def ConstructGameAndHistory(RowData):
-    Tags=RowData['tags']
-    TagStr=''
-    for i in Tags:
-        TagStr=TagStr+'/'+i
-
-    Vote=RowData['vote_info']
-    SampleCnt=Vote['1']+Vote['2']+Vote['3']+Vote['4']+Vote['5']
-    TotalStat=Vote['1']+Vote['2']*2+Vote['3']*3+Vote['4']*4+Vote['5']*5
-    AvStat=float(TotalStat)/float(SampleCnt)
-    DBFL.GenericInsert("Game",DBObject.Game(RowData['id'],RowData['name'],TagStr, \
-        RowData['original_price'],AvStat))
-    DBFL.GenericInsert("History",DBObject.History(RowData['id'],RowData['downloads'],\
-        AvStat,RowData['vote_info'],RowData['comment'],RowData['current_price']))
-
-def ConstructRank():
+def ConstructGameAndHistoryByAutoErgodic():
+    HotDict={}
+    PopDict={}
+    ReserveDict={}
+    SoldDict={}
     for filepath, filenames in os.walk('Data\\Rank'):
         for filename in filenames:
             data=pd.read_csv("{}\\{}".format(filepath,filename))
-            '''
             if 'hot' in str(filename):
                 for RowData in data.iterrows():
-                    DBFL.GenericUpdate(DBObject.History,RowData['id'],)
-            '''
+                    HotDict[RowData['id']]=RowData['stat']
+            elif 'pop' in str(filename):
+                for RowData in data.iterrows():
+                    PopDict[RowData['id']]=RowData['stat']
+            elif 'reserve' in str(filename):
+                for RowData in data.iterrows():
+                    ReserveDict[RowData['id']]=RowData['stat']
+            elif 'sell' in str(filename):
+                for RowData in data.iterrows():
+                    SoldDict[RowData['id']]=RowData['stat']
 
-if __name__ == '__main__':
-    #Construct DB
-    #Assume tables are created
-    DB.drop_all()
-    DB.create_all()
-    ConstructAll()
+    LastGame=0
+    Comments=[]
+    for filepath, filenames in os.walk('Data\\BaseInfo'):
+        for filename in filenames:
+            data=pd.read_csv("{}\\{}".format(filepath,filename))
+            for RowData in data.iterrows():
+                #Need count the loop when LastGame == RowData['id'] to avoid predict.
+                if LastGame == RowData['id']:
+                    Comments.append(RowData['comment'])
+                    continue
+                else:
+                    LastGame=RowData['id']
+                    Comments=[]
+                Tags=RowData['tags']
+                TagStr=''
+                for i in Tags:
+                    TagStr=TagStr+'/'+i
+
+                Vote=RowData['vote_info']
+                SampleCnt=Vote['1']+Vote['2']+Vote['3']+Vote['4']+Vote['5']
+                TotalStat=Vote['1']+Vote['2']*2+Vote['3']*3+Vote['4']*4+Vote['5']*5
+                AvStat=float(TotalStat)/float(SampleCnt)
+                DBFL.GenericInsert("Game",DBObject.Game(RowData['id'],RowData['name'],TagStr, \
+                    RowData['original_price'],AvStat))
+
+                ThisHot=0
+                ThisPop=0
+                ThisReverse=0
+                ThisSold=0
+                try:
+                    ThisHot=HotDict['id']
+                except BaseException:
+                    pass
+                try:
+                    ThisPop=PopDict['id']
+                except BaseException:
+                    pass
+                try:
+                    ThisReverse=ReserveDict['id']
+                except BaseException:
+                    pass
+                try:
+                    ThisSold=SoldDict['id']
+                except BaseException:
+                    pass
+
+                DBFL.GenericInsert("History",DBObject.History(RowData['id'],RowData['downloads'],\
+                    AvStat,RowData['vote_info'],RowData['comment'],RowData['current_price'],ThisHot,\
+                    ThisPop,ThisReverse,ThisSold))

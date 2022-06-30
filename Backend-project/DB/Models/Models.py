@@ -2,6 +2,8 @@ import datetime
 from AppStartDataBase import DB
 from sqlalchemy import Column, Integer, String, Float, DateTime
 
+#Spider->CSV->UnoptimizedDataBase->DataAnalysis->FastDataBase->Request
+#These models are useless in back-end but must be used.
 class Belongs(DB.Model):
     BelongsID=Column(Integer, primary_key=True, autoincrement=True)
     CompanyName=Column(String(100),nullable=False)
@@ -39,7 +41,6 @@ class Game(DB.Model):
     GameName=Column(String(100),nullable=False)
     CategoryName=Column(String(100),nullable=False)
     RawPrice=Column(Float,nullable=False)
-    Stat=Column(Float,nullable=True)
 
     def __init__(self,GameID,GameName,CategoryName,RawPrice,Stat):
         self.GameID=GameID
@@ -66,7 +67,7 @@ class History(DB.Model):
     ReservedRank=Column(Integer, nullable=False)
     SoldRank=Column(Integer, nullable=False)
 
-    def __init__(self,GameID,Download,stat,VoteInfo,Comments,Price):
+    def __init__(self,GameID,Download,stat,VoteInfo,Comments,Price,HeatRank,PlayedRank,ReservedRank,SoldRank):
         self.GameID=GameID
         self.UpdateTime=datetime.datetime.now()
         self.Download=Download
@@ -74,6 +75,10 @@ class History(DB.Model):
         self.VoteInfo=VoteInfo
         self.Comments=Comments
         self.Price=Price
+        self.HeatRank=HeatRank
+        self.PlayedRank=PlayedRank
+        self.ReservedRank=ReservedRank
+        self.SoldRank=SoldRank
 
     def Serialize(self):
         return "({},{},{},{},{},{},{},{},{},{},{},{})".format \
@@ -81,7 +86,7 @@ class History(DB.Model):
             ,self.VoteInfo,self.Comments,self.Price,self.HeatRank,self.PlayedRank \
             ,self.PlayedRank,self.ReservedRank,self.SoldRank)
     
-    
+#Response requests by the fast models as follows.
 class game_list(DB.Model):#用于榜单数据展示和搜索数据展示（曲线）
     game_name=Column(String(50), primary_key=True)#游戏名
     stat=Column(Integer)#评分
