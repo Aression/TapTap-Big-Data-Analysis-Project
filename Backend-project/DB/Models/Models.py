@@ -80,3 +80,44 @@ class History(DB.Model):
             (self.HistoryID,self.GameID,self.UpdateTime,self.Download,self.stat \
             ,self.VoteInfo,self.Comments,self.Price,self.HeatRank,self.PlayedRank \
             ,self.PlayedRank,self.ReservedRank,self.SoldRank)
+    
+    
+    class game_list(DB.Model):#用于榜单数据展示和搜索数据展示（曲线）
+    game_name=Column(String(50), primary_key=True)#游戏名
+    stat=Column(Integer)#评分
+    #对应热榜没有排名，存入0
+    heat_rank=Column(Integer)
+    played_rank=Column(Integer)
+    reserved_rank=Column(Integer)
+    sold_rank=Column(Integer)
+
+    cates=Column(String(100))#类型--序列化字符串
+
+    time_list=Column(String(50))#更新时间--列表字符串
+    stat_list=Column(String(50))#评分--列表字符串
+    price_list=Column(String(50))#价格--列表字符串
+
+
+class company_list(DB.Model):#厂商交叉分析
+    company_name=Column(String(50), primary_key=True)#公司名
+    one_star=Column(Integer)#各星级评分数量
+    two_star=Column(Integer)
+    three_star=Column(Integer)
+    four_star=Column(Integer)
+    five_star=Column(Integer)
+    stat=Column(Integer)#评分
+
+class cate_list(DB.Model):#类型和评分、下载量分析
+    cate_name=Column(String(50), primary_key=True)#类型名
+    downlo=Column(Integer)#下载量
+    one_star=Column(Integer)#各星级评分数量
+    two_star=Column(Integer)
+    three_star=Column(Integer)
+    four_star=Column(Integer)
+    five_star=Column(Integer)
+    stat=Column(Integer)#评分
+
+class recommend_list(DB.Model):#以热门榜为基础，去除预约榜，根据类型评分和厂商评分按权重重新排名
+    game_name=Column(String(50), primary_key=True)#游戏名
+    stat=Column(Integer)#评分
+    cates=Column(String(100))
