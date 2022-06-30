@@ -82,7 +82,7 @@ class History(DB.Model):
             ,self.PlayedRank,self.ReservedRank,self.SoldRank)
     
     
-    class game_list(DB.Model):#用于榜单数据展示和搜索数据展示（曲线）
+class game_list(DB.Model):#用于榜单数据展示和搜索数据展示（曲线）
     game_name=Column(String(50), primary_key=True)#游戏名
     stat=Column(Integer)#评分
     #对应热榜没有排名，存入0
