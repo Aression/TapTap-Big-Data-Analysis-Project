@@ -1,56 +1,15 @@
 #Development!
 #ART0189
 
-from AppStartDataBase import HiveDB,HiveConnection
+from AppStartDataBase import DB,DBS
 
-'''
-def GenericCreate(TableName):
+#Other data-write operations are not recommandable.
+#Most data-read operation need be implemented manually.
+
+def GenericInsert(Object):
     try:
-        TargetCommand=''
-        TableNameStr=str(TableName)
-
-        TargetCommand=\
-            'create table if not exists {}'.format(TableNameStr)
-
-        exec(TargetCommand)
-        HiveDB.execute(TargetCommand)
-        HiveConnection.commit()
-
-        return True
-    except BaseException:
-        print('Invalid TableName')
-
-        return False
-'''
-
-def GenericDrop(TableName):
-    try:
-        TargetCommand=''
-        TableNameStr=str(TableName)
-
-        TargetCommand=\
-            'drop table if exists {}'.format(TableNameStr)
-
-        exec(TargetCommand)
-        HiveDB.execute(TargetCommand)
-        HiveConnection.commit()
-
-        return True
-    except BaseException:
-        print('Invalid TableName')
-
-        return False
-
-def GenericInsert(TableName,Object):
-    try:
-        TargetCommand=''
-        TableNameStr=str(TableName)
-        ObjectStr=Object.Serialize()
-
-        TargetCommand='insert ignore into {} values{}'.format(TableNameStr,ObjectStr)
-
-        HiveDB.execute(TargetCommand)
-        HiveConnection.commit()
+        DBS.add(Object)
+        DBS.commit()
 
         return True
     except BaseException:
@@ -58,39 +17,23 @@ def GenericInsert(TableName,Object):
 
         return False
 
-def GenericUpdate(TableName,UpdateMethod,Condition):
+def GenericUpdate(Class,Condition,VarName,NewValue):
     try:
         TargetCommand=''
-        TableNameStr=str(TableName)
-        UpdateMethodStr=str(UpdateMethod)
+        ClassStr=str(Class)
         ConditionStr=str(Condition)
+        VarNameStr=str(VarName)
+        NewValueStr=str(NewValue)
+        
+        TargetCommand='TpRs={}.query.filter_by({})'.format(ClassStr,ConditionStr) \
+            +'\n'+'TpRs.{}={}'.format(VarNameStr,NewValueStr) \
+            +'\n'+'DBS.merge(TpRs)'
 
-        TargetCommand='update {} set {} where {}'.format(TableNameStr,UpdateMethodStr,ConditionStr)
-
-        HiveDB.execute(TargetCommand)
-        HiveConnection.commit()
+        exec(TargetCommand)
+        DBS.commit()
 
         return True
     except BaseException:
         print('Invalid TableName/UpdateMethod/Condition')
 
         return False
-
-def GenericDelete(TableName,Condition):
-    #Use table name and condition to delete data.
-    try:
-        TargetCommand=''
-        TableNameStr=str(TableName)
-        ConditionStr=str(Condition)
-
-        TargetCommand='delete from {} where {}'.format(TableNameStr,ConditionStr)
-
-        HiveDB.execute(TargetCommand)
-        HiveConnection.commit()
-
-        return True
-    except BaseException:
-        print('Invalid TableName/Condition')
-
-        return False
-
