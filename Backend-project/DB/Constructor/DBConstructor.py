@@ -27,7 +27,7 @@ def ConstructAll():
 
 def ConstructBelongs(RowData):
     for i in RowData['companies']:
-        DBFL.GenericInsert("Belongs",DBObject.Belongs(i['name'],RowData['name'],i['type']))
+        DBFL.GenericInsert(DBObject.Belongs(i['name'],RowData['name'],i['type']))
 
 def ConstructCategory():
     tag_icons = [
@@ -59,7 +59,7 @@ def ConstructCategory():
     'UP主推荐'
     ]
     for i in tag_icons:
-        DBFL.GenericInsert("Category",i)
+        DBFL.GenericInsert(i)
     return
 
 def ConstructCompanyByAutoErgodic():
@@ -78,7 +78,7 @@ def ConstructCompanyByAutoErgodic():
         CompanyConstructHelper("{}\\{}".format(filepath,filename))
 
     for i in CompanyDict.items():
-        DBFL.GenericInsert("Company",DBObject.Company(i[0],i[1]))
+        DBFL.GenericInsert(DBObject.Company(i[0],i[1]))
 
 def ConstructGameAndHistoryByAutoErgodic():
     HotDict={}
@@ -123,7 +123,7 @@ def ConstructGameAndHistoryByAutoErgodic():
                 SampleCnt=Vote['1']+Vote['2']+Vote['3']+Vote['4']+Vote['5']
                 TotalStat=Vote['1']+Vote['2']*2+Vote['3']*3+Vote['4']*4+Vote['5']*5
                 AvStat=float(TotalStat)/float(SampleCnt)
-                DBFL.GenericInsert("Game",DBObject.Game(RowData['id'],RowData['name'],TagStr, \
+                DBFL.GenericInsert(DBObject.Game(RowData['id'],RowData['name'],TagStr, \
                     RowData['original_price'],AvStat))
 
                 ThisHot=0
@@ -147,6 +147,6 @@ def ConstructGameAndHistoryByAutoErgodic():
                 except BaseException:
                     pass
 
-                DBFL.GenericInsert("History",DBObject.History(RowData['id'],RowData['downloads'],\
+                DBFL.GenericInsert(DBObject.History(RowData['id'],RowData['downloads'],\
                     AvStat,RowData['vote_info'],RowData['comment'],RowData['current_price'],ThisHot,\
                     ThisPop,ThisReverse,ThisSold))
