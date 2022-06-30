@@ -1,6 +1,7 @@
 #Development!
 #ART0189
 
+from AppStartDataBase import DB
 import DB.DBHelper.DBFunctionLibrary as DBFL
 import Models.Models as DBObject
 import pandas as pd
@@ -9,18 +10,17 @@ import os
 def ConstructAll():
     ConstructCategory()
 
-    for filepath, dirnames, filenames in os.walk('Data//BaseInfo'):
+    for filepath, filenames in os.walk('Data\\BaseInfo'):
         for filename in filenames:
             data=pd.read_csv("{}\\{}".format(filepath,filename))
             for RowData in data.iterrows():
                 ConstructBelongs(RowData)
-                ConstructHistory(RowData)
-    print("Base data construction finished!")
-
-    ConstructGameByAutoErgodic()
-    print("Game data construction finished!")
+                ConstructGameAndHistory(RowData)
+    print("Base data construction has finished!")
     ConstructCompanyByAutoErgodic()
-    print("Company data construction finished!")
+    print("Company data construction has finished!")
+    ConstructRank()
+    print("Rank data construction has finished!")
 
 def ConstructBelongs(RowData):
     for i in RowData['companies']:
@@ -68,26 +68,40 @@ def ConstructCompanyByAutoErgodic():
             for i in RowData['companies']:
                 CompanyDict[i['name']]=CompanyDict[i['name']]+'/'+RowData['id']
     
-    CompanyConstructHelper("CategoryDetailsSpider_MMORPG.csv")
+    for filepath, filename in os.walk('Data\\BaseInfo'):
+        CompanyConstructHelper("{}\\{}".format(filepath,filename))
 
     for i in CompanyDict.items():
         DBFL.GenericInsert("Company",DBObject.Company(i[0],i[1]))
 
-def ConstructGameByAutoErgodic():
-    return
+def ConstructGameAndHistory(RowData):
+    Tags=RowData['tags']
+    TagStr=''
+    for i in Tags:
+        TagStr=TagStr+'/'+i
 
-def ConstructHistory(RowData):
-    DBFL.GenericInsert("History",DBObject.History(RowData['']))
+    Vote=RowData['vote_info']
+    SampleCnt=Vote['1']+Vote['2']+Vote['3']+Vote['4']+Vote['5']
+    TotalStat=Vote['1']+Vote['2']*2+Vote['3']*3+Vote['4']*4+Vote['5']*5
+    AvStat=float(TotalStat)/float(SampleCnt)
+    DBFL.GenericInsert("Game",DBObject.Game(RowData['id'],RowData['name'],TagStr, \
+        RowData['original_price'],AvStat))
+    DBFL.GenericInsert("History",DBObject.History(RowData['id'],RowData['downloads'],\
+        AvStat,RowData['vote_info'],RowData['comment'],RowData['current_price']))
 
-def DropAll():
-    DBFL.GenericDrop("Belongs")
-    DBFL.GenericDrop("Category")
-    DBFL.GenericDrop("Company")
-    DBFL.GenericDrop("Game")
-    DBFL.GenericDrop("History")
+def ConstructRank():
+    for filepath, filenames in os.walk('Data\\Rank'):
+        for filename in filenames:
+            data=pd.read_csv("{}\\{}".format(filepath,filename))
+            '''
+            if 'hot' in str(filename):
+                for RowData in data.iterrows():
+                    DBFL.GenericUpdate(DBObject.History,RowData['id'],)
+            '''
 
 if __name__ == '__main__':
     #Construct DB
     #Assume tables are created
-    DropAll()
+    DB.drop_all()
+    DB.create_all()
     ConstructAll()
