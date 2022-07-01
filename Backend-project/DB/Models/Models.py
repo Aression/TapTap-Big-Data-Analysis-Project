@@ -1,6 +1,8 @@
 import datetime
+from typing import Text
 from AppStartDataBase import DB
 from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy.dialects.mysql import LONGTEXT
 
 #Spider->CSV->UnoptimizedDataBase->DataAnalysis->FastDataBase->Request
 #These models are useless in back-end but must be used.
@@ -22,6 +24,9 @@ class Belongs(DB.Model):
 class Category(DB.Model):
     CategoryName=Column(String(100),primary_key=True)
 
+    def __init__(self,CategoryName):
+        self.CategoryName=CategoryName
+
     def Serialize(self):
         return "({})".format(self.CategoryName)
 
@@ -41,6 +46,7 @@ class Game(DB.Model):
     GameName=Column(String(100),nullable=False)
     CategoryName=Column(String(100),nullable=False)
     RawPrice=Column(Float,nullable=False)
+    Stat=Column(Float,nullable=False)
 
     def __init__(self,GameID,GameName,CategoryName,RawPrice,Stat):
         self.GameID=GameID
@@ -60,7 +66,7 @@ class History(DB.Model):
     Download=Column(Integer, nullable=False)
     stat=Column(Float, nullable=False)
     VoteInfo=Column(String(100), nullable=False)
-    Comments=Column(String(1000), nullable=False)
+    Comments=Column(LONGTEXT, nullable=False)
     Price=Column(Float, nullable=False)
     HeatRank=Column(Integer, nullable=False)
     PlayedRank=Column(Integer, nullable=False)
