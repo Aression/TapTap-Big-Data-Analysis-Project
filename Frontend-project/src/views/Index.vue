@@ -11,7 +11,9 @@
                 </div>
             </el-main>
             <el-footer>
-                © Copyright Mamba. All Rights Reserved
+                数据每周日凌晨0:00更新
+                @ Cpoyright 大数据第七组
+                <!-- © Copyright Mamba. All Rights Reserved -->
             </el-footer>
         </el-container>
     </div>

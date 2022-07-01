@@ -24,7 +24,7 @@ export default {
     props: ['chartTitle', 'tableData'],
     data() {
         return {
-            chart_data:[]
+            chart_data: []
         }
     },
     methods: {

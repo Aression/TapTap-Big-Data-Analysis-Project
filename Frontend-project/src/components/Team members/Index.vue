@@ -3,18 +3,21 @@
     <div class="Main">
       <div class="main_text">
         <span style="color: rgb(88, 113, 135);font-weight: bold;font-size: 35px;">小组成员</span>
-        <br>
-        <span style="font-size: 15px">Team Members</span>
       </div>
     </div>
     <div class="team_img">
+      <div>
+        <span style="color: rgb(88, 113, 135);font-weight: bold;font-size: 15px">后端小组</span>
+      </div>
       <div class="team_img_box" v-for="(item, index) in mainImgArr1" :key="index">
         <img :src='item.img' style="width: 120px;height: 120px;">
         <p>{{item.name}}</p>
-
       </div>
     </div>
     <div class="team_img">
+      <div>
+        <span style="color: rgb(88, 113, 135);font-weight: bold;font-size: 15px">前端小组</span>
+      </div>
       <div class="team_img_box" v-for="(item, index) in mainImgArr2" :key="index">
         <img :src='item.img' style="width: 120px;height: 120px;">
         <p>{{item.name}}</p>

@@ -9,8 +9,8 @@
         </li>
       </ul>
     </div>
-    <DoubleBrokenLine v-if="nowIndex === 0 && doubleline_data.length>0" :doubleline_data.sync='doubleline_data'/>
-    <Tab :nowIndex='nowIndex' :data_GameType.sync='data_GameType'  v-if="nowIndex !== 0 && data_GameType.length > 0" />
+    <DoubleBrokenLine v-if="nowIndex === 0 && doubleline_data.length > 0" :doubleline_data.sync='doubleline_data' />
+    <Tab :nowIndex='nowIndex' :data_GameType.sync='data_GameType' v-if="nowIndex !== 0 && data_GameType.length > 0" />
 
   </div>
 </template >
@@ -41,7 +41,7 @@ export default {
     //改变index时候，获取一遍榜单
     changeNav(index) {
       this.nowIndex = index
-      console.log(this.nowIndex);
+      // console.log(this.nowIndex);
       if (index == 0) {
         this.now_name = '叫座榜与综合关注度榜'
         this.getTabs_ac()
@@ -68,9 +68,8 @@ export default {
 
       res.then((result) => {
         let doubleline_data = result.list_info
-
         this.doubleline_data = doubleline_data
-        console.log(this.doubleline_data);
+        // console.log(this.doubleline_data);
       })
       // console.log(res);
     },
@@ -91,7 +90,7 @@ export default {
           }))
 
           this.data_GameType = data_GameType
-          console.log(this.data_GameType);
+          // console.log(this.data_GameType);
         })
       } else if (this.nowIndex == 2) {
         res.then((result) => {
@@ -101,7 +100,7 @@ export default {
           }))
 
           this.data_GameType = data_GameType
-          console.log(this.data_GameType);
+          // console.log(this.data_GameType);
         })
       }
     },
@@ -112,7 +111,7 @@ export default {
         manufacturer: this.now_name
       }
       let res = this.api.get_manu(param);
-      console.log(res);
+      // console.log(res);
       //nowIndex = 3
       res.then((result) => {
         let data_GameType = result.data_list.map(item => ({
@@ -121,7 +120,7 @@ export default {
         }))
 
         this.data_GameType = data_GameType
-        console.log(this.data_GameType);
+        // console.log(this.data_GameType);
       })
     },
   },
@@ -146,23 +145,28 @@ export default {
 } */
 
 .nav {
-  width: 60%;
-  margin: auto;
-  margin-top: 30px;
+  width: 100%;
+  position: relative;
+  margin: 0 auto; 
+  text-align: center;
+  margin-top: auto;
 }
 
 ul {
   display: flex;
+  margin: 0 auto; text-align: center;
   list-style: none;
 }
 
 li {
   margin: 21.7px;
   cursor: pointer;
+  margin: 0 auto; text-align: center;
   color: rgb(98, 124, 147);
 }
 
 .selected {
   font-weight: bold;
+  color: #797979;
 }
 </style>

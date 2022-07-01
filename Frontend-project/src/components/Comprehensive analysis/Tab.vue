@@ -77,7 +77,7 @@ export default {
             s += this.data_GameType[this.data_GameType.length - 1].list[index1++] + '"';
             s += '}'
             s += ']'
-            console.log(JSON.parse(s))
+            // console.log(JSON.parse(s))
             this.tableData = JSON.parse(s)
         },
     },
@@ -92,10 +92,12 @@ export default {
 
 <style scoped>
 .tab {
-    width: 85%;
-    height: 400px;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    /* margin: 0 auto; */
+    margin: 0 auto; text-align: center;
     display: flex;
     justify-content: center;
+    align-content: center;
 }
 </style>

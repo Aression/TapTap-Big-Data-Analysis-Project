@@ -2,7 +2,7 @@
     <div>
         <div class="header">
             <div class="header_title">
-                Group_name
+                大数据第七组
             </div>
             <div class="header_nav">
                 <ul>

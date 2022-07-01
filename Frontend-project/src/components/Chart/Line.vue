@@ -17,8 +17,8 @@
 <script>
 import * as echarts from 'echarts';
 export default {
-    props: ['Line','com_emoji'],
-    data() {
+  props: ['Line', 'com_emoji'],
+  data() {
     return {
       scoreChart: '',
       priceChart: '',
@@ -26,12 +26,26 @@ export default {
     }
   },
   methods: {
+    //处理多个图形的自适应
+    getEchartObj(){
+        let arr = ['scoreChart','priceChart','emojiChart']
+        arr.map(v => {
+        let  _ref=this.$refs[v];//遍历生成的折线图的Dom
+        let myEchars = _ref?echarts.getInstanceByDom(_ref):undefined;
+        if(myEchars!== undefined){
+          myEchars.resize();
+        }
+      })
+    }
   },
-        mounted() {
-            console.log(this.Line)
+  mounted() {
+    // console.log(this.Line)
     this.scoreChart = echarts.init(document.getElementById('score'));
     this.priceChart = echarts.init(document.getElementById('price'));
     this.emojiChart = echarts.init(document.getElementById('emojibar'));
+    window.addEventListener("resize", () => {
+        this.getEchartObj();
+    });
     this.scoreChart.setOption({
       title: {
         text: '评分变化',
@@ -54,7 +68,7 @@ export default {
       series: [
         {
           name: '评分变化',
-              data: this.Line[0].data2,
+          data: this.Line[0].data2,
           type: 'line'
         }
       ]
@@ -73,7 +87,7 @@ export default {
       },
       xAxis: {
         type: 'category',
-          data: this.Line[0].data1,
+        data: this.Line[0].data1,
       },
       yAxis: {
         type: 'value'
@@ -113,15 +127,18 @@ export default {
         }
       ]
     })
+    
   },
 }
+
+
 </script>
 
 <style scoped>
 .chart {
   width: 100%;
   height: 450px;
-  margin-top: 45px;
+  /* margin-top: 10px; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -129,9 +146,9 @@ export default {
 }
 
 .chart .chart_box {
-  width: 60%;
+  width: 70%;
   height: 150px;
-  border: 1px solid rgb(69, 186, 235);
+  border: 1px solid rgb(79,79,79);
   margin-top: 10px;
 }
 </style>

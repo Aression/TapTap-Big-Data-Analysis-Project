@@ -3,7 +3,7 @@
         <div class="main_text">
             <span style="color: rgb(88, 113, 135);font-weight: bold;font-size: 35px;">TapTap游戏网站大数据分析</span>
             <br>
-            <span style="font-size: 20px">应用Python爬虫、Flask框架、Echarts、WordCloud等技术实现</span>
+            <span style="font-size: 20px">为您持续呈现TapTap平台的最新综合数据</span>
         </div>
         <div class="main_img">
             <div class="main_img_box" v-for="(item, index) in mainImgArr" :key="index"
@@ -54,7 +54,7 @@ export default {
 
 .main_img {
     width: 90%;
-    height: 330px;
+    height: 250px;
     display: flex;
     margin: 0 auto;
     cursor: pointer;
@@ -67,7 +67,7 @@ export default {
 
 .main_img .main_img_box {
     width: 21%;
-    height: 250px;
+    height: 200px;
     border: 2.5px solid rgb(121, 121, 121);
 }
 
