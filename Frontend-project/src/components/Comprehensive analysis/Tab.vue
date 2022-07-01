@@ -3,6 +3,7 @@
         <div class="tab">
             <div style="width: 750px;">
                 <el-table :data="tableData" style="width: 100%;" height="360">
+                    
                     <el-table-column prop="type" :label="nowIndex == 3 ? '游戏厂商/星级' : '游戏类型/星级'" width="140"
                         align="center">
                     </el-table-column>
@@ -18,9 +19,9 @@
                     </el-table-column>
                     <el-table-column prop="total" label="总数" width="100" align="center">
                     </el-table-column>
-                    <el-table-column v-for="{ type, one, two, three, four, five, total } in tableData" :key="type"
+                    <!-- <el-table-column v-for="{ type, one, two, three, four, five, total } in tableData" :key="type"
                         :one="one" :two="two" :three="three" :four="four" :five="five" :total="total">
-                    </el-table-column>
+                    </el-table-column> -->
                 </el-table>
             </div>
         </div>
