@@ -1,0 +1,9 @@
+==================================================================
+Congratulations! Install succeeded!
+==================================================================
+Bt-Panel: http://39.108.88.241:8888
+username: 8h5mskg0
+password: 5977eb63
+Warning:
+If you cannot access the panel, 
+release the following port (8888|888|80|443|20|21) in the security group
