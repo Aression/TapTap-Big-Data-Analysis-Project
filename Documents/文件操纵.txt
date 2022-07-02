@@ -1,0 +1,5 @@
+解压zip：
+unzip text.zip
+
+赋予权限：
+chmod 777 -Rfv /home/name/*

@@ -1,0 +1,16 @@
+1. docker环境安装：
+curl -sSL https://get.daocloud.io/docker | sh
+
+2. apt和pip换源：阿里云服务器默认为阿里源。
+
+3. docker mysql安装：
+docker pull mysql:5.7
+
+4. 启动服务：
+docker run -itd --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
+
+5. 配置初始数据库：
+docker exec -it mysql /bin/bash
+mysql -u root -p
+123456
+create database projbase;
