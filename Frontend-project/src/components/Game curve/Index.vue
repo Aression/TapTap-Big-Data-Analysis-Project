@@ -53,6 +53,7 @@
             },
             search_func() {
                 this.getcurveTabs()
+                this.search=''
             },
             //try
             async getHotTable() {
