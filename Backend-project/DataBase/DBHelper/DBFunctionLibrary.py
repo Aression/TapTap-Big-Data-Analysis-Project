@@ -1,7 +1,7 @@
 #Development!
 #ART0189
 
-from AppStartDataBase import DB,DBS
+from AppStartDataBase import SQLDB,DBS
 from sqlalchemy.exc import IntegrityError
 
 global TotalGame

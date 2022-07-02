@@ -1,11 +1,8 @@
 #Development!
 #ART0189
 
-from this import s
-from sqlalchemy import null
-from AppStartDataBase import DB
-import DB.DBHelper.DBFunctionLibrary as DBFL
-import DB.Models.Models as DBObject
+from ..DBHelper import DBFunctionLibrary as DBFL
+from ..Models import Models as DBObject
 import pandas as pd
 import os,re,json
 
@@ -21,9 +18,9 @@ def CheckSymbol(InStr):
     return NewStr
 
 def ConstructAll():
-    ConstructCategory()
+    #ConstructCategory()
     print("Category data construction has finished!")
-    ConstructByAutoErgodic()
+    #ConstructByAutoErgodic()
     print("AutoErgodic construction has finished!")
 
 def ConstructCategory():

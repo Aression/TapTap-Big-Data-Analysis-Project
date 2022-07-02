@@ -4,9 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 App = Flask(__name__)
 App.config.from_object(Conf)
-DB=SQLAlchemy(App)
-DB.init_app(App)
-DBS=DB.session
+SQLDB=SQLAlchemy(App)
+SQLDB.init_app(App)
+DBS=SQLDB.session
 
 #debug start
 @App.route('/')
@@ -18,9 +18,9 @@ def Start():
 #launch databse local debug
 if __name__ == '__main__':
     #LocalDataBase
-    from DB.Models.Models import *
-    DB.drop_all()
-    DB.create_all()
-    from DB.Constructor.DBConstructor import ConstructAll
+    from DataBase.Models.Models import *
+    SQLDB.drop_all()
+    SQLDB.create_all()
+    from DataBase.Constructor.DBConstructor import ConstructAll
     ConstructAll()
     App.run(host='0.0.0.0',port=8002,debug=True)

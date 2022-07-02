@@ -1,12 +1,11 @@
 import datetime
-from typing import Text
-from AppStartDataBase import DB
+from AppStartDataBase import SQLDB
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from sqlalchemy.dialects.mysql import LONGTEXT
 
 #Spider->CSV->UnoptimizedDataBase->DataAnalysis->FastDataBase->Request
 #These models are useless in back-end but must be used.
-class Belongs(DB.Model):
+class Belongs(SQLDB.Model):
     BelongsID=Column(Integer, primary_key=True, autoincrement=True)
     CompanyName=Column(String(100),nullable=False)
     GameName=Column(String(100),nullable=False)
@@ -21,7 +20,7 @@ class Belongs(DB.Model):
         return "({},{},{},{})".format \
             (self.Belongs,self.CompanyName,self.GameName,self.Description)
 
-class Category(DB.Model):
+class Category(SQLDB.Model):
     CategoryName=Column(String(100),primary_key=True)
 
     def __init__(self,CategoryName):
@@ -30,7 +29,7 @@ class Category(DB.Model):
     def Serialize(self):
         return "({})".format(self.CategoryName)
 
-class Company(DB.Model):
+class Company(SQLDB.Model):
     CompanyName=Column(String(100),primary_key=True)
     GameID=Column(String(500),nullable=False)
 
@@ -41,7 +40,7 @@ class Company(DB.Model):
     def Serialize(self):
         return "({},{})".format(self.CompanyName,self.GameID)
 
-class Game(DB.Model):
+class Game(SQLDB.Model):
     GameID=Column(Integer, primary_key=True)
     GameName=Column(String(100),nullable=False)
     CategoryName=Column(String(100),nullable=False)
@@ -59,7 +58,7 @@ class Game(DB.Model):
         return "({},{},{},{})".format \
             (self.GameID,self.GameName,self.RawPrice,self.Stat)
 
-class History(DB.Model):
+class History(SQLDB.Model):
     HistoryID=Column(Integer, primary_key=True, autoincrement=True)
     GameID=Column(Integer, nullable=False)
     UpdateTime=Column(DateTime, nullable=False)
@@ -93,7 +92,7 @@ class History(DB.Model):
             ,self.PlayedRank,self.ReservedRank,self.SoldRank)
     
 #Response requests by the fast models as follows.
-class game_list(DB.Model):#用于榜单数据展示和搜索数据展示（曲线）
+class game_list(SQLDB.Model):#用于榜单数据展示和搜索数据展示（曲线）
     game_name=Column(String(50), primary_key=True)#游戏名
     stat=Column(Integer)#评分
     #对应热榜没有排名，存入0
@@ -109,7 +108,7 @@ class game_list(DB.Model):#用于榜单数据展示和搜索数据展示（曲�
     price_list=Column(String(50))#价格--列表字符串
 
 
-class company_list(DB.Model):#厂商交叉分析
+class company_list(SQLDB.Model):#厂商交叉分析
     company_name=Column(String(50), primary_key=True)#公司名
     one_star=Column(Integer)#各星级评分数量
     two_star=Column(Integer)
@@ -118,7 +117,7 @@ class company_list(DB.Model):#厂商交叉分析
     five_star=Column(Integer)
     stat=Column(Integer)#评分
 
-class cate_list(DB.Model):#类型和评分、下载量分析
+class cate_list(SQLDB.Model):#类型和评分、下载量分析
     cate_name=Column(String(50), primary_key=True)#类型名
     downlo=Column(Integer)#下载量
     one_star=Column(Integer)#各星级评分数量
@@ -128,7 +127,7 @@ class cate_list(DB.Model):#类型和评分、下载量分析
     five_star=Column(Integer)
     stat=Column(Integer)#评分
 
-class recommend_list(DB.Model):#以热门榜为基础，去除预约榜，根据类型评分和厂商评分按权重重新排名
+class recommend_list(SQLDB.Model):#以热门榜为基础，去除预约榜，根据类型评分和厂商评分按权重重新排名
     game_name=Column(String(50), primary_key=True)#游戏名
     stat=Column(Integer)#评分
     cates=Column(String(100))
