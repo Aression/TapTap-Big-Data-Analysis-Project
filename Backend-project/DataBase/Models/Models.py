@@ -122,7 +122,7 @@ class company_list(SQLDB.Model):#厂商交叉分析
 
 class cate_list(SQLDB.Model):#类型和评分、下载量分析
     cate_name=Column(String(50), primary_key=True)#类型名
-    downlo=Column(Integer)#下载量
+    download=Column(Integer)#下载量
     one_star=Column(Integer)#各星级评分数量
     two_star=Column(Integer)
     three_star=Column(Integer)
@@ -130,7 +130,4 @@ class cate_list(SQLDB.Model):#类型和评分、下载量分析
     five_star=Column(Integer)
     stat=Column(Float)#评分
 
-class recommend_list(SQLDB.Model):#以热门榜为基础，去除预约榜，根据类型评分和厂商评分按权重重新排名
-    game_name=Column(String(50), primary_key=True)#游戏名
-    stat=Column(Float)#评分
-    cates=Column(String(100))
+
