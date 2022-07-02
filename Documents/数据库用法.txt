@@ -9,3 +9,5 @@
 
 使用flask_SQLAlchemy 的crud：
 https://blog.csdn.net/qq_39147299/article/details/109495792
+
+lsof -i:端口号 查看占用
