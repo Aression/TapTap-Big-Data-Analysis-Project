@@ -7,19 +7,20 @@ def SerchGame():
 
     ThisGame=game_list.query.filter_by(game_name=ReqGameName).first()
 
-    resp = {'code': 200, 'game_name': ReqGameName, 'stat': ThisGame.stat, 'category_name':ThisGame.cates}
+    resp = {'code': 200, 'game_name': ReqGameName, 'stat': ThisGame.stat, \
+        'category_name':ThisGame.cates}
 
     return jsonify(resp)
 
-#Unfinished------------------------------------------------------------------
 @App.route('/data', methods=["GET","POST"])
 def Curve():
     req=request.values
-    ReqGameName=req['search_game-name']
+    ReqGameName=req['game_name']
 
-    ThisGame=Game.query.filter_by(GameName=ReqGameName).first()
-    Historys=History.query.filter_by(GameID=ThisGame.GameID).all()
+    ThisGame=game_list.query.filter_by(game_name=ReqGameName).first()
+    LineDict=[{"date":ThisGame.time_list,"scoredata":ThisGame.stat_list, \
+        "pricedata":ThisGame.price_list}]
 
-    
+    resp = {'code': 200, 'status': 'success', 'Line': LineDict}
 
-    return 
+    return jsonify(resp)

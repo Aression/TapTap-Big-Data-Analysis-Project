@@ -1,13 +1,14 @@
 #Development!
 #ART0189
 
+from sqlalchemy import null
 from ..DBHelper import DBFunctionLibrary as DBFL
 from ..Models import Models as DBObject
 import pandas as pd
 import os,re,json
 
-BaseInfoPath='.\\Backend-project\\DB\\Constructor\\Data\\BaseInfo'
-BaseRankPath='.\\Backend-project\\DB\\Constructor\\Data\\Rank'
+BaseInfoPath='.\\Backend-project\\DataBase\\Constructor\\Data\\BaseInfo'
+BaseRankPath='.\\Backend-project\\DataBase\\Constructor\\Data\\Rank'
 
 def CheckSymbol(InStr):
     NewStr=""
