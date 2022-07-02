@@ -1,9 +1,12 @@
 ==================================================================
-Congratulations! Install succeeded!
+Congratulations! Installed successfully!
 ==================================================================
-Bt-Panel: http://39.108.88.241:8888
-username: 8h5mskg0
-password: 5977eb63
-Warning:
-If you cannot access the panel, 
-release the following port (8888|888|80|443|20|21) in the security group
+外网面板地址: http://39.108.88.241:31609/7c7ef5e2
+内网面板地址: http://172.23.79.74:31609/7c7ef5e2
+username: jyakceve
+password: 1ba5bda6
+If you cannot access the panel,
+release the following panel port [31609] in the security group
+若无法访问面板，请检查防火墙/安全组是否有放行面板[31609]端口
+==================================================================
+Time consumed: 1 Minute!
