@@ -34,7 +34,7 @@ export default {
       mainImgArr1: [
         {
           img: require('@/assets/img/zxp.jpg'),
-          name: "湛宵鹏"
+          name: "湛霄鹏"
         },
         {
           img: require('@/assets/img/ld.jpg'),
@@ -42,7 +42,7 @@ export default {
         },
         {
           img: require('@/assets/img/zxr.jpg'),
-          name: "曾萧然"
+          name: "曾霄然"
         }
       ],
       mainImgArr2: [

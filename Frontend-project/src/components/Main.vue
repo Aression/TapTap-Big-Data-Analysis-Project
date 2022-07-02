@@ -54,7 +54,7 @@ export default {
 
 .main_img {
     width: 90%;
-    height: 250px;
+    height: 330px;
     display: flex;
     margin: 0 auto;
     cursor: pointer;
@@ -67,7 +67,7 @@ export default {
 
 .main_img .main_img_box {
     width: 21%;
-    height: 200px;
+    height: 250px;
     border: 2.5px solid rgb(121, 121, 121);
 }
 
