@@ -1,5 +1,4 @@
 from DataBase.Models.Models import *
-from DataBase.DBFunctionLibrary import *
 from AppStartDataBase import DBS
 from bixin import predict
 import random

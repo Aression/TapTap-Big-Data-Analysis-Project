@@ -1,4 +1,4 @@
-from ResponsorHeader import *
+from .ResponsorHeader import *
 
 @App.route('/search-page', methods=["GET","POST"])
 def SerchGame():

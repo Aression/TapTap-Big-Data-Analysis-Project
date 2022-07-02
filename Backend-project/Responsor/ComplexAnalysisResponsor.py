@@ -1,4 +1,3 @@
-from sqlalchemy import null
 from .ResponsorHeader import *
 
 route_complex = Blueprint('Comprehensive', __name__)

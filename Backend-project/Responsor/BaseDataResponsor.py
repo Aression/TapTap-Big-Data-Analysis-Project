@@ -12,7 +12,8 @@ def HotTableChart():
     #if reqlist==
     #Find hot of category from data analysis.
 
-    return 
+    resp = {'code': 200, 'status': 'failed'}
+    return jsonify(resp)
 
 @route_basicdata.route('/getHotTable', methods=["GET","POST"])
 def HotTable():
