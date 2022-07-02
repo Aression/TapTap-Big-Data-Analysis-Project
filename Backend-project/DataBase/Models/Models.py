@@ -93,8 +93,8 @@ class History(SQLDB.Model):
     
 #Response requests by the fast models as follows.
 class game_list(SQLDB.Model):#用于榜单数据展示和搜索数据展示（曲线）
-    game_name=Column(String(50), primary_key=True)#游戏名
-    stat=Column(Integer)#评分
+    game_name=Column(String(100), primary_key=True)#游戏名
+    stat=Column(Float)#评分
     #对应热榜没有排名，存入0
     heat_rank=Column(Integer)
     played_rank=Column(Integer)
@@ -106,6 +106,9 @@ class game_list(SQLDB.Model):#用于榜单数据展示和搜索数据展示（�
     time_list=Column(String(50))#更新时间--列表字符串
     stat_list=Column(String(50))#评分--列表字符串
     price_list=Column(String(50))#价格--列表字符串
+    
+    download=Column(Integer)
+    emoji=Column(String(50))#评价--列表字符串  58,42
 
 
 class company_list(SQLDB.Model):#厂商交叉分析
@@ -115,7 +118,7 @@ class company_list(SQLDB.Model):#厂商交叉分析
     three_star=Column(Integer)
     four_star=Column(Integer)
     five_star=Column(Integer)
-    stat=Column(Integer)#评分
+    stat=Column(Float)#评分
 
 class cate_list(SQLDB.Model):#类型和评分、下载量分析
     cate_name=Column(String(50), primary_key=True)#类型名
@@ -125,9 +128,9 @@ class cate_list(SQLDB.Model):#类型和评分、下载量分析
     three_star=Column(Integer)
     four_star=Column(Integer)
     five_star=Column(Integer)
-    stat=Column(Integer)#评分
+    stat=Column(Float)#评分
 
 class recommend_list(SQLDB.Model):#以热门榜为基础，去除预约榜，根据类型评分和厂商评分按权重重新排名
     game_name=Column(String(50), primary_key=True)#游戏名
-    stat=Column(Integer)#评分
+    stat=Column(Float)#评分
     cates=Column(String(100))
