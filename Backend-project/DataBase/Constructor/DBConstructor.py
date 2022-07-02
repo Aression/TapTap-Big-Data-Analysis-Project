@@ -115,6 +115,7 @@ def ConstructByAutoErgodic():
     for filepath, dirs, filenames in os.walk(BaseInfoPath):
         for filename in filenames:
             data=pd.read_csv("{}\\{}".format(filepath,filename))
+            #data=pd.read_csv("D:\\TapTap-Big-Data-Analysis-Project\\Backend-project\\DataBase\\Constructor\\Data\\BaseInfo\\CategoryDetailsSpider_mo_ni.csv")
             for index, RowData in data.iterrows():
                 if LastGame != RowData['id']:
                     LastGame=RowData['id']
@@ -168,7 +169,7 @@ def ConstructByAutoErgodic():
                 SampleCnt=Vote['1']+Vote['2']+Vote['3']+Vote['4']+Vote['5']
                 TotalStat=Vote['1']+Vote['2']*2+Vote['3']*3+Vote['4']*4+Vote['5']*5
                 AvStat=float(TotalStat)/float(SampleCnt)
-                RawPrice=(re.findall("\d+",RowData['original_price']))[0]
+                RawPrice=(re.findall("\d+",str(RowData['original_price'])))[0]
                 DBFL.GenericInsert(DBObject.Game(RowData['id'],CheckSymbol(RowData['name']),str(ThisTags), \
                     RawPrice,AvStat))
 
@@ -193,7 +194,7 @@ def ConstructByAutoErgodic():
                 except BaseException:
                     pass
 
-                CurrentPrice=(re.findall("\d+",RowData['current_price']))[0]
+                CurrentPrice=(re.findall("\d+",str(RowData['current_price'])))[0]
                 ThisHistory=DBObject.History(RowData['id'],RowData['downloads'],\
                     AvStat,RowData['vote_info'],str(Comments),CurrentPrice,ThisHot,\
                     ThisPop,ThisReverse,ThisSold)

@@ -7,9 +7,9 @@ from sqlalchemy.dialects.mysql import LONGTEXT
 #These models are useless in back-end but must be used.
 class Belongs(SQLDB.Model):
     BelongsID=Column(Integer, primary_key=True, autoincrement=True)
-    CompanyName=Column(String(100),nullable=False)
-    GameName=Column(String(100),nullable=False)
-    Description=Column(String(100),nullable=False)
+    CompanyName=Column(String(500),nullable=False)
+    GameName=Column(String(500),nullable=False)
+    Description=Column(String(500),nullable=False)
 
     def __init__(self,CompanyName,GameName,Description):
         self.CompanyName=CompanyName
@@ -30,8 +30,8 @@ class Category(SQLDB.Model):
         return "({})".format(self.CategoryName)
 
 class Company(SQLDB.Model):
-    CompanyName=Column(String(100),primary_key=True)
-    GameID=Column(String(500),nullable=False)
+    CompanyName=Column(String(500),primary_key=True)
+    GameID=Column(LONGTEXT,nullable=False)
 
     def __init__(self,CompanyName,GameID):
         self.CompanyName=CompanyName
@@ -42,8 +42,8 @@ class Company(SQLDB.Model):
 
 class Game(SQLDB.Model):
     GameID=Column(Integer, primary_key=True)
-    GameName=Column(String(100),nullable=False)
-    CategoryName=Column(String(100),nullable=False)
+    GameName=Column(String(500),nullable=False)
+    CategoryName=Column(String(500),nullable=False)
     RawPrice=Column(Float,nullable=False)
     Stat=Column(Float,nullable=False)
 
