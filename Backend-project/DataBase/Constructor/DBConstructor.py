@@ -18,9 +18,9 @@ def CheckSymbol(InStr):
     return NewStr
 
 def ConstructAll():
-    #ConstructCategory()
+    ConstructCategory()
     print("Category data construction has finished!")
-    #ConstructByAutoErgodic()
+    ConstructByAutoErgodic()
     print("AutoErgodic construction has finished!")
 
 def ConstructCategory():
