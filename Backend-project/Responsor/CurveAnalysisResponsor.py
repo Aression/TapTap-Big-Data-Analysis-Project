@@ -1,6 +1,8 @@
 from .ResponsorHeader import *
 
-@App.route('/search-page', methods=["GET","POST"])
+route_curve = Blueprint('', __name__)
+
+@route_curve.route('/search-page', methods=["GET","POST"])
 def SerchGame():
     req=request.values
     ReqGameName=req['search_game-name']
@@ -12,7 +14,7 @@ def SerchGame():
 
     return jsonify(resp)
 
-@App.route('/data', methods=["GET","POST"])
+@route_curve.route('/data', methods=["GET","POST"])
 def Curve():
     req=request.values
     ReqGameName=req['game_name']

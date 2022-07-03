@@ -5,6 +5,7 @@ from Responsor.BaseDataResponsor import *
 
 App.register_blueprint(route_basicdata, url_prefix="/BasicData")
 App.register_blueprint(route_complex, url_prefix="/Comprehensive")
+App.register_blueprint(route_curve,url_prefix="/")
 
 #launch
 #launch databse local debug
