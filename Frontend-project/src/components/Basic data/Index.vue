@@ -55,16 +55,30 @@ export default {
       let res = this.api.getHotTable(param);
       //读取res中的数据
       // console.log(res)
-      res.then((result) => {
-        let tableData = result.tableData.map(item => ({
-          //修改接收到的变量名字
-          name: item.game_name, score: item.stat, type: item.category_name
-        }))
-        // 把let定义的tableData赋值给data中定义的 this.tableData
-        this.tableData = tableData
-        // console.log(this.tableData);
-      })
-      // console.log(res);
+      if (this.activeName != '厂商榜') {
+        res.then((result) => {
+          let tableData = result.tableData.map(item => ({
+            //修改接收到的变量名字
+            name: item.game_name, score: item.stat, type: item.category_name
+          }))
+          // 把let定义的tableData赋值给data中定义的 this.tableData
+          this.tableData = tableData
+          // console.log(this.tableData);
+        })
+        // console.log(res);
+      }
+      else {
+        res.then((result) => {
+          let tableData = result.tableData.map(item => ({
+            //修改接收到的变量名字
+            name: item.category_name, score: item.stat
+          }))
+          // 把let定义的tableData赋值给data中定义的 this.tableData
+          this.tableData = tableData
+          // console.log(this.tableData);
+        })
+        // console.log(res);
+      }
     },
     async getHotTableChart() {
       let param = {
