@@ -4,7 +4,7 @@ let url = {
     // 获取榜单
     getHotTable(data) {
         return axios({
-            url: domain+"/BasicData/getHotTable?list_name="+data.listname,
+            url: domain+"/BasicData/getHotTable?list_name="+data.list_name,
             method: "post",
             data
         })
@@ -12,7 +12,7 @@ let url = {
     // 获取榜单统计图表
     getHotTableChart(data) {
         return axios({
-            url: domain+"/BasicData/getHotTableChart?list_name="+data.listname,
+            url: domain+"/BasicData/getHotTableChart?list_name="+data.list_name,
             method: "post",
             data
         })

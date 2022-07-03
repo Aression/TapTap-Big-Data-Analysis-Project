@@ -51,6 +51,7 @@ export default {
       let param = {
         list_name: this.activeName
       }
+      // console.log(this.activeName)
       let res = this.api.getHotTable(param);
       //读取res中的数据
       // console.log(res)
