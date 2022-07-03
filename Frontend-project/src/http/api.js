@@ -1,5 +1,5 @@
 import axios from './axios.js'
-let domain="http://39.108.88.241:8003"
+let domain="http://localhost:8002"
 let url = {
     // 获取榜单
     getHotTable(data) {

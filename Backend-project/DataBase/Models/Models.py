@@ -122,7 +122,7 @@ class company_list(SQLDB.Model):#厂商交叉分析
 
 class cate_list(SQLDB.Model):#类型和评分、下载量分析
     cate_name=Column(String(100), primary_key=True)#类型名
-    download=Column(Integer)#下载量
+    downlo=Column(Integer)#下载量
     one_star=Column(Integer)#各星级评分数量
     two_star=Column(Integer)
     three_star=Column(Integer)

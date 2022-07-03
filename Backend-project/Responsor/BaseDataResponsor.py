@@ -108,14 +108,20 @@ def HotTable():
                 RankCnt+=1
                 RankGame.append(i)
     elif reqlist=="厂商榜":
-        TpComp=company_list.order_by(company_list.stat.desc()).all()
-        RankComp=[]
+        TpComp=company_list.query.order_by(company_list.stat.desc()).all()
+        RankGame=[]
         for i in TpComp:
             if RankCnt>=MaxCnt:
                 break
             if i.stat!=0:
                 RankCnt+=1
-                RankComp.append(i)
+                RankGame.append(i)
+
+        for i in RankGame:
+            hotstr.append({'category_name':i.company_name,'stat':i.stat})
+
+        resp={'code': 200, 'status': 'success', 'tableData': hotstr}
+        return jsonify(resp)
 
     else:
         resp = {'code': 200, 'status': 'failed'}
