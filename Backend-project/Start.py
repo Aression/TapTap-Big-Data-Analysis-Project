@@ -3,7 +3,7 @@ from Responsor.CurveAnalysisResponsor import *
 from Responsor.ComplexAnalysisResponsor import *
 from Responsor.BaseDataResponsor import *
 
-App.register_blueprint(route_basicdata, url_prefix="/basicdata")
+App.register_blueprint(route_basicdata, url_prefix="/BasicData")
 App.register_blueprint(route_complex, url_prefix="/Comprehensive")
 
 #launch

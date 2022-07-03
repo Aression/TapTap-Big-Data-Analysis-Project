@@ -1,6 +1,6 @@
 from .ResponsorHeader import *
 
-route_basicdata = Blueprint('basicdata', __name__)
+route_basicdata = Blueprint('BasicData', __name__)
 
 #Unfinished------------------------------------------------------------------
 @route_basicdata.route('/getHotTableChart', methods=["GET","POST"])
