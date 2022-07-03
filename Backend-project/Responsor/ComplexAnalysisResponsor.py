@@ -11,8 +11,8 @@ def ComprehensiveAnalysis():
     
     Comp=company_list.query.filter_by(company_name=reqlist).first()
     if Comp!=null:
-        resp['data_list']=[Comp.one_star,Comp.two_star,Comp.three_star, \
-            Comp.four_star,Comp.five_star]
+        resp['data_list'][0]={'manu_name':reqlist,'manu_score':[Comp.one_star,Comp.two_star,Comp.three_star, \
+            Comp.four_star,Comp.five_star]}
     else:
         resp['error_msg']='Invalid CompName'
 
@@ -38,7 +38,6 @@ def TypeAnalysis():
 
     return jsonify(resp)
 
-#Unfinished------------------------------------------------------------------
 @route_complex.route('/GetTableAC', methods=["GET","POST"])
 def CompanyAnalysis():
     req=request.values

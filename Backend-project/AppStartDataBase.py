@@ -10,10 +10,11 @@ SQLDB.init_app(App)
 DBS=SQLDB.session
 
 CORS(App, resources={r'/*': {'origins': '*', 'supports_credentials': True, 'Access-Control-Allow-Origin': '*'}})
-
+'''
 #debug start
 @App.route('/')
 def Start():
     #Check whether we have connected.
     #Can add customs code when offline debug.
     return 'hello'
+'''
