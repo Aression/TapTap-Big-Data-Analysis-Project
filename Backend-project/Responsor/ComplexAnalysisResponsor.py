@@ -16,7 +16,10 @@ def ComprehensiveAnalysis():
     else:
         resp['error_msg']='Invalid CompName'
 
-    return jsonify(resp)
+    jsresp=[]
+    jsresp.append(resp)
+
+    return jsonify(jsresp)
 
 @route_complex.route('/GameTypeAnalysis', methods=["GET","POST"])
 def TypeAnalysis():
@@ -36,9 +39,11 @@ def TypeAnalysis():
     else:
         resp['error_msg']='Invalid ListName'
 
-    return jsonify(resp)
+    jsresp=[]
+    jsresp.append(resp)
 
-#Unfinished------------------------------------------------------------------
+    return jsonify(jsresp)
+
 @route_complex.route('/GetTableAC', methods=["GET","POST"])
 def CompanyAnalysis():
     req=request.values
@@ -59,4 +64,7 @@ def CompanyAnalysis():
     else:
         resp['error_msg']='Invalid ListName'
 
-    return jsonify(resp)
+    jsresp=[]
+    jsresp.append(resp)
+
+    return jsonify(jsresp)

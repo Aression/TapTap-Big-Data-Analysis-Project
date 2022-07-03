@@ -64,15 +64,16 @@ def getHotTableChart(list_name):
 def HotTableChart():
     req=request.values
     reqlist=req['list_name']
+    resp=[]
 
-    resp = {'code': 200, 'status': 'success','chart_data':getHotTableChart(reqlist)}
+    resp.append({'code': 200, 'status': 'success','chart_data':getHotTableChart(reqlist)})
     return jsonify(resp)
 
-# unfinished
 @route_basicdata.route('/getHotTable', methods=["GET","POST"])
 def HotTable():
     req=request.values
     reqlist=req['list_name']
+    resp=[]
 
     hotstr=[]
     RankCnt=0
@@ -122,5 +123,5 @@ def HotTable():
         hotstr.append('game_name:{},stat:{},category_name:{}'. \
             format(i.game_name,i.stat,i.cates))
 
-    resp = {'code': 200, 'status': 'success', 'tableData': hotstr}
+    resp.append({'code': 200, 'status': 'success', 'tableData': hotstr})
     return jsonify(resp)
