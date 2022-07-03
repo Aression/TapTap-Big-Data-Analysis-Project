@@ -1,5 +1,6 @@
 from datetime import date
 from .ResponsorHeader import *
+import copy
 
 route_complex = Blueprint('Comprehensive', __name__)
 
@@ -17,8 +18,8 @@ def ComprehensiveAnalysis():
             if NowCnt>=MaxCnt:
                 break
             NowCnt+=1
-            resp['data_list'].append({'manu_name':reqlist,'manu_score':[Comp.one_star,Comp.two_star,Comp.three_star, \
-                Comp.four_star,Comp.five_star]})
+            resp['data_list'].append({'manu_name':Comp.company_name,'manu_score':[Comp.one_star,Comp.two_star,Comp.three_star, \
+                Comp.four_star,Comp.five_star,Comp.stat]})
     else:
         resp['error_msg']='Invalid CompName'
 
@@ -37,7 +38,7 @@ def TypeAnalysis():
             BaseDict['game_typename']=i.cate_name
             BaseDict['download_list']=i.downlo
             BaseDict['score_list']=i.stat
-            resp['data_list'].append(BaseDict)
+            resp['data_list'].append(copy.deepcopy(BaseDict))
         pass
     else:
         resp['error_msg']='Invalid ListName'
