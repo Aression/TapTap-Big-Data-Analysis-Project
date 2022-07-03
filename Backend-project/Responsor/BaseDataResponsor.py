@@ -3,7 +3,7 @@ from .ResponsorHeader import *
 route_basicdata = Blueprint('BasicData', __name__)
 # 获取对应榜单的游戏类型数据,返回字典，比如{'MMORPG': 1, '二次元': 1, '冒险': 1, '魔幻': 1, '3D ': 1}
 def getHotTableChart(list_name):
-    if (list_name == "heat_rank"):
+    if (list_name == "热门榜"):
         heat_games = game_list.query.filter(game_list.heat_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for heat_game in heat_games:
@@ -17,7 +17,7 @@ def getHotTableChart(list_name):
             else:
                 cate_count[item] = 1
         return cate_count
-    if (list_name == "played_rank"):
+    if (list_name == "热玩榜"):
         played_games = game_list.query.filter(game_list.played_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for played_game in played_games:
@@ -31,7 +31,7 @@ def getHotTableChart(list_name):
             else:
                 cate_count[item] = 1
         return cate_count
-    if (list_name == "reserved_rank"):
+    if (list_name == "预约榜"):
         reserved_games = game_list.query.filter(game_list.reserved_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for reserved_game in reserved_games:
@@ -45,7 +45,7 @@ def getHotTableChart(list_name):
             else:
                 cate_count[item] = 1
         return cate_count
-    if (list_name == "sold_rank"):
+    if (list_name == "厂商榜"):
         sold_games = game_list.query.filter(game_list.sold_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for sold_game in sold_games:
@@ -68,36 +68,52 @@ def HotTableChart():
     resp = {'code': 200, 'status': 'success','chart_data':getHotTableChart(reqlist)}
     return jsonify(resp)
 
+# unfinished
 @route_basicdata.route('/getHotTable', methods=["GET","POST"])
 def HotTable():
     req=request.values
     reqlist=req['list_name']
 
     hotstr=[]
-    if reqlist=="heat_rank":
-        TpGames = game_list.query.order_by(game_list.heat_rank).all()
+    RankCnt=0
+    MaxCnt=50
+    if reqlist=="热门榜":
+        TpGames = game_list.query.order_by(game_list.heat_rank.desc()).all()
         RankGame=[]
         for i in TpGames:
+            if RankCnt>=MaxCnt:
+                break
             if i.heat_rank!=0:
+                RankCnt+=1
                 RankGame.append(i)
-    elif reqlist=="played_rank":
-        TpGames = game_list.query.order_by(game_list.played_rank).all()
+    elif reqlist=="热玩榜":
+        TpGames = game_list.query.order_by(game_list.played_rank.desc()).all()
         RankGame=[]
         for i in TpGames:
+            if RankCnt>=MaxCnt:
+                break
             if i.played_rank!=0:
+                RankCnt+=1
                 RankGame.append(i)
-    elif reqlist=="reserved_rank":
-        TpGames = game_list.query.order_by(game_list.reserved_rank).all()
+    elif reqlist=="预约榜":
+        TpGames = game_list.query.order_by(game_list.reserved_rank.desc()).all()
         RankGame=[]
         for i in TpGames:
+            if RankCnt>=MaxCnt:
+                break
             if i.reserved_rank!=0:
+                RankCnt+=1
                 RankGame.append(i)
-    elif reqlist=="sold_rank":
-        TpGames = game_list.query.order_by(game_list.sold_rank).all()
-        RankGame=[]
-        for i in TpGames:
-            if i.sold_rank!=0:
-                RankGame.append(i)
+    elif reqlist=="厂商榜":
+        TpComp=company_list.order_by(company_list.stat.desc()).all()
+        RankComp=[]
+        for i in TpComp:
+            if RankCnt>=MaxCnt:
+                break
+            if i.stat!=0:
+                RankCnt+=1
+                RankComp.append(i)
+
     else:
         resp = {'code': 200, 'status': 'failed'}
         return jsonify(resp)

@@ -1,3 +1,4 @@
+from datetime import date
 from .ResponsorHeader import *
 
 route_complex = Blueprint('Comprehensive', __name__)
@@ -44,13 +45,17 @@ def CompanyAnalysis():
     reqlist=req['list_name']
     resp = {'code': 200, 'status': 'failed','error_msg':'','list_info':[]}
 
-
-    if reqlist=="com_attention":
-        #Do calculate
-        pass
-    elif reqlist=="call_set":
-        #Do caluculate
-        pass
+    dates = [
+        datetime.date(2022,6,i) for i in range(22,30)
+    ]
+    a_center = 50
+    a = [random.randint(a_center-i,a_center+i) for i in range(8)]
+    c_center = 40
+    c = [random.randint(c_center-i,c_center+i) for i in range(8)]
+    if reqlist=="综合关注度榜":
+        resp['list_info'].append({'date':dates,'data_a':a,'data_c':c})
+    elif reqlist=="叫座榜":
+        resp['list_info'].append({'date':dates,'data_a':a,'data_c':c})
     else:
         resp['error_msg']='Invalid ListName'
 
