@@ -112,7 +112,7 @@ class game_list(SQLDB.Model):#用于榜单数据展示和搜索数据展示（�
 
 
 class company_list(SQLDB.Model):#厂商交叉分析
-    company_name=Column(String(50), primary_key=True)#公司名
+    company_name=Column(String(100), primary_key=True)#公司名
     one_star=Column(Integer)#各星级评分数量
     two_star=Column(Integer)
     three_star=Column(Integer)
@@ -121,7 +121,7 @@ class company_list(SQLDB.Model):#厂商交叉分析
     stat=Column(Float)#评分
 
 class cate_list(SQLDB.Model):#类型和评分、下载量分析
-    cate_name=Column(String(50), primary_key=True)#类型名
+    cate_name=Column(String(100), primary_key=True)#类型名
     download=Column(Integer)#下载量
     one_star=Column(Integer)#各星级评分数量
     two_star=Column(Integer)
