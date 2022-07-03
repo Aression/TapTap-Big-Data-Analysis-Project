@@ -54,7 +54,7 @@ let url = {
     //曲线数据
     getcurve(data) {
         return axios({
-            url: domain+"/data",
+            url: domain+"/data?game_name="+ data.game_name,
             method: "post",
             data
         })
