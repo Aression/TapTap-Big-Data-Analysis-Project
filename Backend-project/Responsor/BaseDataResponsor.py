@@ -60,17 +60,12 @@ def getHotTableChart(list_name):
                 cate_count[item] = 1
         return cate_count
 
-#Unfinished------------------------------------------------------------------
 @route_basicdata.route('/getHotTableChart', methods=["GET","POST"])
 def HotTableChart():
     req=request.values
     reqlist=req['list_name']
 
-    Cates=cate_list.query.all()
-    #if reqlist==
-    #Find hot of category from data analysis.
-
-    resp = {'code': 200, 'status': 'failed'}
+    resp = {'code': 200, 'status': 'success','chart_data':getHotTableChart(reqlist)}
     return jsonify(resp)
 
 @route_basicdata.route('/getHotTable', methods=["GET","POST"])
