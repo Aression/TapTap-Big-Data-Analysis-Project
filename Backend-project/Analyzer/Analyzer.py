@@ -186,7 +186,7 @@ def get_recommend_list():
 
 # 获取对应榜单的游戏类型数据,返回字典，比如{'MMORPG': 1, '二次元': 1, '冒险': 1, '魔幻': 1, '3D ': 1}
 def getHotTableChart(list_name):
-    if (list_name == "heat_list"):
+    if (list_name == "heat_rank"):
         heat_games = game_list.query.filter(game_list.heat_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for heat_game in heat_games:
@@ -200,7 +200,7 @@ def getHotTableChart(list_name):
             else:
                 cate_count[item] = 1
         return cate_count
-    if (list_name == "played_list"):
+    if (list_name == "played_rank"):
         played_games = game_list.query.filter(game_list.played_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for played_game in played_games:
@@ -214,7 +214,7 @@ def getHotTableChart(list_name):
             else:
                 cate_count[item] = 1
         return cate_count
-    if (list_name == "reserved_list"):
+    if (list_name == "reserved_rank"):
         reserved_games = game_list.query.filter(game_list.reserved_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for reserved_game in reserved_games:
@@ -228,7 +228,7 @@ def getHotTableChart(list_name):
             else:
                 cate_count[item] = 1
         return cate_count
-    if (list_name == "sold_list"):
+    if (list_name == "sold_rank"):
         sold_games = game_list.query.filter(game_list.sold_rank != 0).all()  # 取出热榜游戏
         cateList = []
         for sold_game in sold_games:
