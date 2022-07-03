@@ -31,7 +31,7 @@ export default {
         }
     },
     mounted() {
-        this.toArray()
+        // this.toArray()
         this.myChart = echarts.init(document.getElementById('doubleLines'));
         this.myChart.setOption({
             tooltip: {

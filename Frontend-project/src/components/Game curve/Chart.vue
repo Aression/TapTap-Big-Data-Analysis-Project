@@ -24,9 +24,9 @@ export default {
         },
         async getcurve() {
             let param = {
-                list_name: this.click_row_name
+                game_name: this.click_row_name
             }
-            // console.log(this.click_row_name)
+            console.log(this.click_row_name)
             let res = this.api.getcurve(param);
             //读取res中的数据
             res.then((result) => {
