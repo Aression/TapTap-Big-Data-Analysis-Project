@@ -122,8 +122,7 @@ def HotTable():
         return jsonify(resp)
 
     for i in RankGame:
-        hotstr.append('game_name:{},stat:{},category_name:{}'. \
-            format(i.game_name,i.stat,i.cates))
+        hotstr.append({'game_name':i.game_name,'stat':i.stat,'category_name':i.cates})
 
     resp={'code': 200, 'status': 'success', 'tableData': hotstr}
     return jsonify(resp)

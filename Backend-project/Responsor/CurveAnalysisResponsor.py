@@ -21,6 +21,6 @@ def Curve():
     LineDict=[{"date":ThisGame.time_list,"scoredata":ThisGame.stat_list, \
         "pricedata":ThisGame.price_list}]
 
-    resp={'code': 200, 'status': 'success', 'Line': LineDict}
+    resp={'code': 200, 'status': 'success', 'Line': LineDict, "com-emoji": ThisGame.emoji}
 
     return jsonify(resp)
