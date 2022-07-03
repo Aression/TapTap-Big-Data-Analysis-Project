@@ -167,3 +167,198 @@ def update_cate_list():
             stat=cateList.one_star+cateList.two_star*2+cateList.three_star*3+cateList.four_star*4+cateList.five_star*5
             cateList.stat=stat
         DBS.commit()
+
+        
+        
+def get_recommend_list():
+    heat_games = getHotTable("heat_list")
+    for heat_game in heat_games:
+        weight = 0.0
+        game = game_list.query.filter_by(game_name=heat_game['game_name']).first()
+        emoji = game.emoji
+        emoji = emoji.split(',')
+        weight += float(emoji[0]) / float(emoji[1]) * 10
+        weight += heat_game['stat']
+        heat_game['weight'] = weight
+    sorted(heat_games, key=lambda x: x['weight'])
+    return heat_games
+
+
+# 获取对应榜单的游戏类型数据,返回字典，比如{'MMORPG': 1, '二次元': 1, '冒险': 1, '魔幻': 1, '3D ': 1}
+def getHotTableChart(list_name):
+    if (list_name == "heat_list"):
+        heat_games = game_list.query.filter(game_list.heat_rank != 0).all()  # 取出热榜游戏
+        cateList = []
+        for heat_game in heat_games:
+            heat_game_cateList = str(heat_game.cates).split(',')
+            for i in heat_game_cateList:
+                cateList.append(str(i))
+        cate_count = {}
+        for item in cateList:
+            if item in cate_count:
+                cate_count[item] += 1
+            else:
+                cate_count[item] = 1
+        return cate_count
+    if (list_name == "played_list"):
+        played_games = game_list.query.filter(game_list.played_rank != 0).all()  # 取出热榜游戏
+        cateList = []
+        for played_game in played_games:
+            played_game_cateList = str(played_game.cates).split(',')
+            for i in played_game_cateList:
+                cateList.append(str(i))
+        cate_count = {}
+        for item in cateList:
+            if item in cate_count:
+                cate_count[item] += 1
+            else:
+                cate_count[item] = 1
+        return cate_count
+    if (list_name == "reserved_list"):
+        reserved_games = game_list.query.filter(game_list.reserved_rank != 0).all()  # 取出热榜游戏
+        cateList = []
+        for reserved_game in reserved_games:
+            reserved_game_cateList = str(reserved_game.cates).split(',')
+            for i in reserved_game_cateList:
+                cateList.append(str(i))
+        cate_count = {}
+        for item in cateList:
+            if item in cate_count:
+                cate_count[item] += 1
+            else:
+                cate_count[item] = 1
+        return cate_count
+    if (list_name == "sold_list"):
+        sold_games = game_list.query.filter(game_list.sold_rank != 0).all()  # 取出热榜游戏
+        cateList = []
+        for sold_game in sold_games:
+            sold_game_cateList = str(sold_game.cates).split(',')
+            for i in sold_game_cateList:
+                cateList.append(str(i))
+        cate_count = {}
+        for item in cateList:
+            if item in cate_count:
+                cate_count[item] += 1
+            else:
+                cate_count[item] = 1
+        return cate_count
+
+
+# 获取榜单数据，返回字典列表--推荐列表的还没做
+# 如[{'game_name': '事发地点发', 'stat': 5, 'category_name': 'dshsdh'}, {'game_name': 'sasfhiu', 'stat': 5, 'category_name': 'MMORPG,二次元,冒险,魔幻,3D'}, {'game_name': 'asfsdoighfi', 'stat': 5, 'category_name': 'sdasda'}]
+def getHotTable(list_name):
+    if (list_name == "heat_list"):
+        list_games = []
+        heat_games = game_list.query.filter(game_list.heat_rank != 0).order_by(game_list.heat_rank).all()  # 取出热榜游戏
+        for heat_game in heat_games:
+            list_game = {"game_name": "", "stat": "", "category_name": ""}
+            list_game["game_name"] = heat_game.game_name
+            list_game["stat"] = heat_game.stat
+            list_game["category_name"] = heat_game.cates
+            list_games.append(list_game)
+        return list_games
+    if (list_name == "played_list"):
+        list_games = []
+        played_games = game_list.query.filter(game_list.played_rank != 0).order_by(
+            game_list.played_rank).all()  # 取出热榜游戏
+        for played_game in played_games:
+            list_game = {"game_name": "", "stat": "", "category_name": ""}
+            list_game["game_name"] = played_game.game_name
+            list_game["stat"] = played_game.stat
+            list_game["category_name"] = played_game.cates
+            list_games.append(list_game)
+        return list_games
+    if (list_name == "reserved_list"):
+        list_games = []
+        reserved_games = game_list.query.filter(game_list.reserved_rank != 0).order_by(
+            game_list.reserved_rank).all()  # 取出热榜游戏
+        for reserved_game in reserved_games:
+            list_game = {"game_name": "", "stat": "", "category_name": ""}
+            list_game["game_name"] = reserved_game.game_name
+            list_game["stat"] = reserved_game.stat
+            list_game["category_name"] = reserved_game.cates
+            list_games.append(list_game)
+        return list_games
+    if (list_name == "sold_list"):
+        list_games = []
+        sold_games = game_list.query.filter(game_list.sold_rank != 0).order_by(game_list.sold_rank).all()  # 取出热榜游戏
+        for sold_game in sold_games:
+            list_game = {"game_name": "", "stat": "", "category_name": ""}
+            list_game["game_name"] = sold_game.game_name
+            list_game["stat"] = sold_game.stat
+            list_game["category_name"] = sold_game.cates
+            list_games.append(list_game)
+        return list_games
+    if (list_name == "recommend_list"):
+        return get_recommend_list
+
+
+def GetTableAC():
+    date = []
+    A = []
+    C = []
+    list_info = []
+    list_info.append(date)
+    list_info.append(A)
+    list_info.append(C)
+
+
+def getManuScore(company_name):
+    company = company_list.query.filter_by(company_name=company_name).first()
+    if company is None:
+        return
+    manu_name = company_name
+    manu_score = []
+    manu_score.append(company.one_star)
+    manu_score.append(company.two_star)
+    manu_score.append(company.three_star)
+    manu_score.append(company.four_star)
+    manu_score.append(company.five_star)
+    manu_score.append(company.stat)
+    data_list = []
+    data_list.append(manu_name)
+    data_list.append(manu_score)
+    return data_list
+
+
+def GameTypeAnalysis():
+    data_list = []
+    cates = cate_list.query.all()
+    for cate in cates:
+        dataList = {}
+        dataList['game_typename'] = cate.cate_name
+        score_list = []
+        download_list = []
+        score_list.append(cate.one_star)
+        score_list.append(cate.two_star)
+        score_list.append(cate.three_star)
+        score_list.append(cate.four_star)
+        score_list.append(cate.five_star)
+        score_list.append(cate.stat)
+        dataList['score_list'] = score_list
+        download = cate.download
+        stars = cate.one_star + cate.two_star + cate.three_star + cate.four_star + cate.five_star
+        download_list.append(int(cate.one_star / stars * download))
+        download_list.append(int(cate.two_star / stars * download))
+        download_list.append(int(cate.three_star / stars * download))
+        download_list.append(int(cate.four_star / stars * download))
+        download_list.append(int(cate.five_star / stars * download))
+        download_list.append(int(download))
+        dataList['download_list'] = download_list
+        data_list.append(dataList)
+    return data_list
+
+
+def get_curve(game_name):
+    game = game_list.query.filter_by(game_name=game_name).first()
+    Line = {}
+    date = game.time_list.split(',')
+    scoredata = game.stat_list.split(',')
+    pricedata = game.price_list.split(',')
+    Line['date'] = date
+    Line['scoredata'] = scoredata
+    Line['pricedata'] = pricedata
+    result = {}
+    result['Line'] = Line
+    result['com-emoji'] = game.emoji
+    return result
