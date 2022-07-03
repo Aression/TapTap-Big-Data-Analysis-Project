@@ -69,7 +69,7 @@ export default {
       res.then((result) => {
         let doubleline_data = result.list_info
         this.doubleline_data = doubleline_data
-        // console.log(this.doubleline_data);
+        console.log(this.doubleline_data);
       })
       // console.log(res);
     },

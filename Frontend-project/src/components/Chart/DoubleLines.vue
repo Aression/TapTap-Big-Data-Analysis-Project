@@ -40,7 +40,7 @@ export default {
             legend: {},
             xAxis: {
                 type: 'category',
-                data: this.date
+                data: this.doubleline_data[0].date
             },
             yAxis: {
                 type: 'value',
@@ -52,12 +52,12 @@ export default {
                 {
                     name: '综合关注度',
                     type: 'line',
-                    data: this.data_a
+                    data: this.doubleline_data[0].data_a
                 },
                 {
                     name: '叫座率',
                     type: 'line',
-                    data: this.data_c
+                    data: this.doubleline_data[0].data_c
                 }
             ]
         })
