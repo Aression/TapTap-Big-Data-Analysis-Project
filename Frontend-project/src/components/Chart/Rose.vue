@@ -14,6 +14,11 @@ export default {
         }
     },
     mounted() {
+        this.chart_data.forEach((item, index) => {
+            if (!item.name) {
+               this.chart_data.splice(index, 1)
+            }
+        })
         this.myChart = echarts.init(document.getElementById('rose'));
         this.myChart.setOption({
             title: {
