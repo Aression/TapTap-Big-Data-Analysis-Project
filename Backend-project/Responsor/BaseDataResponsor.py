@@ -109,9 +109,9 @@ def HotTable():
                 RankGame.append(i)
             else:
                 RankCnt+=1
-                i.reserved_rank=i
+                i.reserved_rank=RankCnt
                 RankGame.append(i)
-        RankGame.sort(key=lambda x:x.reserved_rank)
+        #RankGame.sort(key=lambda x:x.reserved_rank)
 
         for i in RankGame:
             hotstr.append({'game_name':i.game_name,'stat':i.reserved_rank,'category_name':i.cates})  
