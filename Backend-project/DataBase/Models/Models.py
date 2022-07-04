@@ -30,7 +30,7 @@ class Category(SQLDB.Model):
         return "({})".format(self.CategoryName)
 
 class Company(SQLDB.Model):
-    CompanyName=Column(String(500),primary_key=True)
+    CompanyName=Column(String(100),primary_key=True)
     GameID=Column(LONGTEXT,nullable=False)
 
     def __init__(self,CompanyName,GameID):
@@ -118,7 +118,7 @@ class company_list(SQLDB.Model):#厂商交叉分析
     three_star=Column(Integer)
     four_star=Column(Integer)
     five_star=Column(Integer)
-    stat=Column(Float)#评分
+    stat=Column(Integer)#评分
 
 class cate_list(SQLDB.Model):#类型和评分、下载量分析
     cate_name=Column(String(100), primary_key=True)#类型名

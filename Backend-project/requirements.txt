@@ -1,0 +1,10 @@
+flask
+flask_sqlalchemy
+mrjob
+bixin
+pandas
+sqlalchemy
+requests
+pymysql
+bixin
+tqdm

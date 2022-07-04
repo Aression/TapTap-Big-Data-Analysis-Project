@@ -3,9 +3,9 @@ from Responsor.CurveAnalysisResponsor import *
 from Responsor.ComplexAnalysisResponsor import *
 from Responsor.BaseDataResponsor import *
 
-App.register_blueprint(route_basicdata, url_prefix="/BasicData")
-App.register_blueprint(route_complex, url_prefix="/Comprehensive")
-App.register_blueprint(route_curve,url_prefix="/")
+app.register_blueprint(route_basicdata, url_prefix="/BasicData")
+app.register_blueprint(route_complex, url_prefix="/Comprehensive")
+app.register_blueprint(route_curve,url_prefix="/")
 
 #launch
 #launch databse local debug
@@ -23,4 +23,4 @@ if __name__ == '__main__':
     #update_cate_list()
     #update_company_list()
 
-    App.run(host='0.0.0.0',port=8002,debug=True)
+    app.run(host='0.0.0.0',port=8003,debug=True)

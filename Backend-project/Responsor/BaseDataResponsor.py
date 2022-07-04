@@ -32,7 +32,7 @@ def getHotTableChart(list_name):
                 cate_count[item] = 1
         return cate_count
     if (list_name == "预约榜"):
-        reserved_games = game_list.query.filter(game_list.reserved_rank != 0).all()  # 取出热榜游戏
+        reserved_games = game_list.query.filter(game_list.download==0).all()[0:50]  # 取出下载量为0的前五十游戏
         cateList = []
         for reserved_game in reserved_games:
             reserved_game_cateList = str(reserved_game.cates).split(',')
@@ -99,25 +99,14 @@ def HotTable():
                 RankCnt+=1
                 RankGame.append(i)
     elif reqlist=="预约榜":
-        TpGames = game_list.query.order_by(game_list.reserved_rank.desc()).all()
+        TpGames = game_list.query.filter(game_list.download==0).all()
         RankGame=[]
         for i in TpGames:
             if RankCnt>=MaxCnt:
                 break
-            if i.reserved_rank!=0:
-                RankCnt+=1
-                RankGame.append(i)
-            else:
-                RankCnt+=1
-                i.reserved_rank=RankCnt
-                RankGame.append(i)
-        #RankGame.sort(key=lambda x:x.reserved_rank)
-
-        for i in RankGame:
-            hotstr.append({'game_name':i.game_name,'stat':i.reserved_rank,'category_name':i.cates})  
-
-        resp={'code': 200, 'status': 'success', 'tableData': hotstr}
-        return jsonify(resp)
+            RankCnt+=1
+            RankGame.append(i)
+        RankGame.sort(key=lambda x:x.stat, reverse=True)
     elif reqlist=="厂商榜":
         TpComp=company_list.query.order_by(company_list.stat.desc()).all()
         RankGame=[]

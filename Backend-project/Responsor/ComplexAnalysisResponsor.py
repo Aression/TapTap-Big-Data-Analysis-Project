@@ -11,8 +11,8 @@ def ComprehensiveAnalysis():
     resp = {'code': 200, 'status': 'success','error_msg':'','data_list':[]}
     
     NowCnt=0
-    MaxCnt=100
-    Comps=company_list.query.all()
+    MaxCnt=50
+    Comps=company_list.query.filter(company_list.five_star!=0).all()
     if Comps!=null:
         for Comp in Comps:
             if NowCnt>=MaxCnt:
@@ -22,7 +22,9 @@ def ComprehensiveAnalysis():
                 Comp.four_star,Comp.five_star,Comp.stat]})
     else:
         resp['error_msg']='Invalid CompName'
-
+        return jsonify(resp)
+    
+    resp['data_list'].sort(key=lambda x:x['manu_score'][-1], reverse=True)
     return jsonify(resp)
 
 @route_complex.route('/GameTypeAnalysis', methods=["GET","POST"])

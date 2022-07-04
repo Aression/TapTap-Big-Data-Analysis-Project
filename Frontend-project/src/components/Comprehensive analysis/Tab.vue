@@ -2,7 +2,7 @@
     <div>
         <div class="tab">
             <div style="width: 1000px; margin: auto; ">
-                <el-table :data="tableData" style="width: 100%;" height="360">
+                <el-table :data="tableData" style="width: 100%;" height="600">
                     <template v-if="nowIndex === 3">
                         <el-table-column prop="type" :label="nowIndex == 3 ? '游戏厂商/星级' : '游戏类型/星级'" width="150"
                             align="center">
@@ -55,7 +55,7 @@ export default {
             var s = '['
             var index1 = 0
 
-            for (let index = 0; index < 5; index++) {
+            for (let index = 0; index < this.data_GameType.length; index++) {
                 s += '{'
                 s += '"type":"'
                 s += this.data_GameType[index].type + '",';
@@ -103,7 +103,7 @@ export default {
         else {
             this.tableData = this.data_GameType
         }
-        console.log(this.data_GameType)
+        console.log( this.tableData )
         //this.changeform_manu()
     }
 }
