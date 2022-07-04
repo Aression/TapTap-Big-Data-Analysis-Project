@@ -138,7 +138,7 @@ export default {
 .chart {
   width: 100%;
   height: 450px;
-  /* margin-top: 10px; */
+  margin-top: 60px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -146,7 +146,7 @@ export default {
 }
 
 .chart .chart_box {
-  width: 70%;
+  width: 60%;
   height: 150px;
   border: 1px solid rgb(79,79,79);
   margin-top: 10px;

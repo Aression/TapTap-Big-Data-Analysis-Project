@@ -1,35 +1,35 @@
 <template>
     <div>
         <div class="tab">
-            <div style="width: 750px; margin: auto; ">
+            <div style="width: 1000px; margin: auto; ">
                 <el-table :data="tableData" style="width: 100%;" height="360">
                     <template v-if="nowIndex === 3">
-                        <el-table-column prop="type" :label="nowIndex == 3 ? '游戏厂商/星级' : '游戏类型/星级'" width="140"
+                        <el-table-column prop="type" :label="nowIndex == 3 ? '游戏厂商/星级' : '游戏类型/星级'" width="150"
                             align="center">
                         </el-table-column>
-                        <el-table-column prop="one" label="一星" width="100" align="center">
+                        <el-table-column prop="one" label="一星" width="141" align="center">
                         </el-table-column>
-                        <el-table-column prop="two" label="二星" width="100" align="center">
+                        <el-table-column prop="two" label="二星" width="141" align="center">
                         </el-table-column>
-                        <el-table-column prop="three" label="三星" width="100" align="center">
+                        <el-table-column prop="three" label="三星" width="141" align="center">
                         </el-table-column>
-                        <el-table-column prop="four" label="四星" width="100" align="center">
+                        <el-table-column prop="four" label="四星" width="141" align="center">
                         </el-table-column>
-                        <el-table-column prop="five" label="五星" width="100" align="center">
+                        <el-table-column prop="five" label="五星" width="141" align="center">
                         </el-table-column>
-                        <el-table-column prop="total" label="总数" width="100" align="center">
+                        <el-table-column prop="total" label="总星数" width="141" align="center">
                         </el-table-column>
                     </template>
                     <template v-if="nowIndex == 2">
-                        <el-table-column prop="type" label="游戏类型" width="350" align="center">
+                        <el-table-column prop="type" label="游戏类型" width="500" align="center">
                         </el-table-column>
-                        <el-table-column prop="list" label="总下载量" width="350" align="center">
+                        <el-table-column prop="list" label="总下载量" width="500" align="center">
                         </el-table-column>
                     </template>
                     <template v-if="nowIndex == 1">
-                        <el-table-column prop="type" label="游戏类型" width="350" align="center">
+                        <el-table-column prop="type" label="游戏类型" width="500" align="center">
                         </el-table-column>
-                        <el-table-column prop="list" label="评论总数" width="350" align="center">
+                        <el-table-column prop="list" label="评论总数" width="500" align="center">
                         </el-table-column>
                     </template>
 

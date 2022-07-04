@@ -5,7 +5,7 @@
             </el-input>
             <el-button icon="el-icon-search" circle @click="search_func"></el-button>
             <div style="width: 700px;margin: 0 auto;">
-                <el-table :data="tableData" style="width: 100%;cursor: pointer;" @row-click="toChart">
+                <el-table :data="tableData" style="width: 100%;cursor: pointer;" @row-click="toChart" height=500>
                     <el-table-column prop="name" label="游戏名称" width="250" align="center">
                     </el-table-column>
                     <el-table-column prop="score" label="评分" width="200" align="center">
