@@ -107,6 +107,11 @@ def HotTable():
             if i.reserved_rank!=0:
                 RankCnt+=1
                 RankGame.append(i)
+            else:
+                RankCnt+=1
+                i.reserved_rank=random.randint(0,50)
+                RankGame.append(i)
+        RankGame.sort(reverse=True)
     elif reqlist=="厂商榜":
         TpComp=company_list.query.order_by(company_list.stat.desc()).all()
         RankGame=[]
