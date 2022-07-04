@@ -109,9 +109,15 @@ def HotTable():
                 RankGame.append(i)
             else:
                 RankCnt+=1
-                i.reserved_rank=random.randint(0,50)
+                i.reserved_rank=i
                 RankGame.append(i)
-        RankGame.sort(reverse=True)
+        RankGame.sort(key=lambda x:x.reserved_rank)
+
+        for i in RankGame:
+            hotstr.append({'game_name':i.game_name,'stat':i.reserved_rank,'category_name':i.cates})  
+
+        resp={'code': 200, 'status': 'success', 'tableData': hotstr}
+        return jsonify(resp)
     elif reqlist=="厂商榜":
         TpComp=company_list.query.order_by(company_list.stat.desc()).all()
         RankGame=[]
