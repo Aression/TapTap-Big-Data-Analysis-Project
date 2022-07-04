@@ -25,7 +25,9 @@ def Curve():
     a_center = int(float(ThisGame.stat_list))
     ThisStat = [random.randint(int(a_center-i/8),int(a_center+i/8)) for i in range(8)]
     a_center= int(float(ThisGame.price_list))
-    ThisPrice= [random.randint(a_center,int(a_center+i/2)) for i in range(8)]
+    ThisPrice=0
+    if a_center!=0:
+        ThisPrice= [random.randint(a_center,int(a_center+i/2)) for i in range(8)]
     LineDict=[{"date":ThisTime,"scoredata":ThisStat, \
         "pricedata":ThisPrice}]
     emoji = ThisGame.emoji
