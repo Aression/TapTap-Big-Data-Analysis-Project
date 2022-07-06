@@ -1,10 +1,10 @@
 ==================================================================
 Congratulations! Installed successfully!
 ==================================================================
-外网面板地址: http://39.108.88.241:31609/7c7ef5e2
-内网面板地址: http://172.23.79.74:31609/7c7ef5e2
-username: jyakceve
-password: 1ba5bda6
+外网面板地址: http://39.108.88.241:31609/xxxx
+内网面板地址: http://172.23.79.74:31609/xxxx
+username: xxx
+password: xxx
 If you cannot access the panel,
 release the following panel port [31609] in the security group
 若无法访问面板，请检查防火墙/安全组是否有放行面板[31609]端口
